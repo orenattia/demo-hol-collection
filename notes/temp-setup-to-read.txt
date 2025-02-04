@@ -1,0 +1,449 @@
+==================
+Create a sudo user
+==================
+   # [Add New Sudo User to the System]
+   adduser <USER NAME> 
+   # [Adding the User to the sudo Group]
+   usermod -aG sudo <USER NAME>
+   # [Testing sudo Access]
+   su - <USER NAME>
+   sudo chown <USER NAME>:<USER NAME> ../
+   # [Add your local user (sudo) to docker group so that local user can run docker command with sudo]
+      sudo usermod -aG docker $USER && newgrp docker
+
+======================
+Setup DNS on IBM Cloud
+======================
+   sudo nano /etc/systemd/resolved.conf
+   -- update --> DNS=8.8.8.8 8.8.4.4
+   systemctl restart systemd-resolved
+   -- Test it by execute: ping cp.icr.io
+
+@@@@@@@@@@@@@@@@@@@@@@@@@
+@@@ BACKUP
+@@@@@@@@@@@@@@@@@@@@@@@@@
+================
+Install docker
+================
+   # [Add Docker Official GPG Key]
+      sudo apt update
+      sudo apt install ca-certificates curl -y
+      sudo install -m 0755 -d /etc/apt/keyrings
+      sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      sudo chmod a+r /etc/apt/keyrings/docker.asc 
+   # [Add Docker Official APT Repository]
+      echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   # [Install Docker on Ubuntu]
+      sudo apt update
+      sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin -y
+   # [Install Docker Compse for Harbor]
+      sudo apt install docker-compose
+   # [Verify the docker service status and start it]
+      systemctl status docker
+      systemctl enable docker
+      systemctl restart docker 
+
+===================================
+Config /etc/docker/daemon.json file
+===================================
+   sudo nano /etc/docker/daemon.json 
+   -- add --> 
+               {
+               "insecure-registries" : ["hcr.<IP>.nip.io:5000","0.0.0.0"]
+               }
+               # After you update daemon.json, you must restart both Docker Engine and Harbor
+               # will be execute late after docker & docker compose installation
+               # If needed to reconfigured Harbor perform the following:
+                  1) Restart Docker Engine
+                        systemctl restart docker
+                  2) Stop Harbor
+                        docker-compose down -v
+                  3) Restart Harbor
+                        docker-compose up -d
+
+===============
+Indtall kubectl
+===============
+   # Init setup
+      sudo mkdir setup-kubectl
+      cd setup-kubectl/
+      sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      sudo install -o <USER NAME> -g <USER NAME> -m 0755 kubectl /usr/local/bin/kubectl
+
+============
+Indtall helm
+============
+   sudo snap install helm3
+
+================
+Install minikube
+================
+   # Init setup
+      sudo mkdir setup-minikube
+      cd setup-minikube/
+      sudo curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+      sudo dpkg -i minikube_latest_amd64.deb
+   # Start Minikube with specified configurations
+      minikube start --addons=ingress --memory=40960 --cpus=16 --cni=flannel --install-addons=true --kubernetes-version=stable
+   # start minikube dashboard with specific port
+      minikube dashboard --port=<PORT>
+   # start minikube dashboard with url
+      minikube dashboard --url
+
+   # [Optional] start minikube with docker as the driver
+      minikube start --driver=docker
+   # [Optional] make docker the default driver:
+      minikube config set driver docker
+
+=============================================================================
+Setup Harbor Self-Hosted Container Registry
+=== https://www.loft.sh/blog/harbor-kubernetes-self-hosted-container-registry
+=============================================================================
+# Harbor Installation and Configuration
+   1) check Harbor prerequisites
+   2) download Harbor
+   3) configure the Harbor YML File
+   4) [Optional] configure HTTPS Access to Harbor
+   5) [Optional] configure Enabling Internal TLS
+   6) run the Installer Script
+   7) Create Harbor project and attach a user to it 
+   8) Copy & load images to harbor server
+   9) Additional troubleshooting
+
+   # 1) check prerequisites
+      # Docker Engine	Version 20.10.10-ce+ or higher	For installation instructions, see Docker Engine documentation
+         docker version
+      # Docker Compose	docker-compose (v1.18.0+) or docker compose v2 (docker-compose-plugin)	For installation instructions, see Docker Compose documentation
+         docker compose version
+      # OpenSSL	Latest is preferred
+         openssl version
+
+      # Port Protocol Description
+      # 443	   HTTPS	Harbor portal and core API accept HTTPS requests on this port. You can change this port in the configuration file.
+      # 4443	HTTPS	Connections to the Docker Content Trust service for Harbor. You can change this port in the configuration file.
+      # 80	   HTTP	Harbor portal and core API accept HTTP requests on th
+      # execute the following iptables commands
+         sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+         sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+         sudo iptables -A INPUT -p tcp --dport 4443 -j ACCEPT
+         # allow trafic to minikube dashboard on poty 8080 if needed
+         sudo iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+      # test the ports are opend
+         nmap -p 80,443,4443 127.0.0.1
+         netstat -tuln | grep -E '(:80|:443|:4443)'
+         ss -tuln | grep -E '(:80|:443|:4443)'
+
+   # 2) download Harbor
+      sudo mkdir setup-harbor
+      cd setup-harbor/
+      sudo wget https://github.com/goharbor/harbor/releases/download/v2.12.2/harbor-offline-installer-v2.12.2.tgz
+      sudo tar -xzvf harbor-offline-installer-v2.12.2.tgz
+
+   # 3) configure the Harbor YML File
+      # Edit harbor.yml.tmpl and Save As harbor.yml
+      [PRE]
+         --> hostname: hcr.<IP>.nip.io
+      [SET INTERNAL TLS]
+         uncomment --> internal_tls:
+         uncomment --> enabled: true
+         add --> dir: /etc/harbor/tls/internal
+      [HTTPS] 
+         -->  certificate: /etc/docker/certs.d/hcr.<IP>.nip.io/demo-apic.cert
+         -->  private_key: /etc/docker/certs.d/hcr.<IP>.nip.io/demo-apic.key
+      [HTTP]
+         --> Edit /etc/docker/daemon.json file:
+               {
+                  "insecure-registries" : ["hcr.<IP>.nip.io:5000","0.0.0.0"]
+               }
+      [POST]
+         systemctl restart docker
+
+   # [Optional] 
+   # 4) configure HTTPS Access to Harbor
+      sudo mkdir cert
+      cd cert/
+      # Generate a Certificate Authority Certificate
+         [INFO] Generate a CA certificate private key
+         sudo openssl genrsa -out ca.key 4096
+         [INFO] Generate the CA certificate
+         sudo openssl req -x509 -new -nodes -sha512 -days 3650 -subj "/C=CN/ST=Tel-Aviv/L=Tel-Aviv/O=demo/OU=Personal/CN=hcr.161.156.84.110.nip.io" -key ca.key -out ca.crt
+      # Generate a Server Certificate
+         [INFO] Generate a private key
+         sudo openssl genrsa -out demo-apic.key 4096
+         [INFO] Generate a certificate signing request (CSR)
+         sudo openssl req -sha512 -new -subj "/C=CN/ST=Tel-Aviv/L=Tel-Aviv/O=demo/OU=Personal/CN=hcr.161.156.84.110.nip.io" -key demo-apic.key -out demo-apic.csr
+      # Generate an x509 v3 extension file
+cat > v3.ext <<-EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1=demo-apic.com
+DNS.2=demo-apic
+DNS.3=hcr.161.156.84.110.nip.io
+EOF      
+      # Use the v3.ext file to generate a certificate for your Harbor host
+         sudo openssl x509 -req -sha512 -days 3650 -extfile v3.ext -CA ca.crt -CAkey ca.key -CAcreateserial -in demo-apic.csr -out demo-apic.crt
+      # Copy the server certificate and key into the certficates folder on your Harbor host
+         sudo mkdir -p /data/cert/
+         sudo cp demo-apic.crt /data/cert/
+         sudo cp demo-apic.key /data/cert/
+      # Convert yourdomain.com.crt to yourdomain.com.cert, for use by Docker
+         sudo openssl x509 -inform PEM -in demo-apic.crt -out demo-apic.cert
+      # Copy the server certificate, key and CA files into the Docker certificates folder on the Harbor host
+         sudo mkdir -p /etc/docker/certs.d/hcr.161.156.84.110.nip.io/
+         sudo cp demo-apic.cert /etc/docker/certs.d/hcr.161.156.84.110.nip.io/
+         sudo cp demo-apic.key /etc/docker/certs.d/hcr.161.156.84.110.nip.io/
+         sudo cp ca.crt /etc/docker/certs.d/hcr.161.156.84.110.nip.io/
+      # Restart Docker Engine
+         systemctl restart docker
+
+   # [Optional] 
+   # 5) configure Enabling Internal TLS
+      [INFO] https://goharbor.io/docs/2.12.0/install-config/configure-internal-tls/
+      # as a root user execute the following to generate configure internal TLS communication between Harbor component
+         docker run -v /:/hostfs goharbor/prepare:v2.12.1 gencert -p /etc/harbor/tls/internal
+      # Run the prepare script to enable HTTPS
+         ./prepare
+      # If Harbor is running, stop and remove the existing instance
+         sudo docker-compose down -v
+      # Restart Harbor
+         sudo docker-compose up -d
+      
+   # 6) run the Installer Script
+      sudo ./install.sh
+      # Verify installation (usually when deploing using helm)
+         kubectl get pods
+         kubectl get pvc
+         kubectl get svc
+         kubectl get ingress
+      # Verify access to the private docker repository
+         docker login https://hcr.<IP>.nip.io
+
+   # 7) Create Harbor project and attach a user to it 
+      # create an Harbor project
+         --> press [Projects] and then [New Project] --> enter project name: apic
+      # create a user 
+         --> press [Users] and then [New User] 
+         --> enter the following:
+            Username: apic-cr
+            Email: apic-cr@demo.com
+            First and last name: APIc Demo
+            Password: <PASSWORD>
+            Confirm Password: <PASSWORD>
+      # Attched thate new user to the project
+         --> press [Projects] and then select [apic] project --> select [Members] and [User] and then enter: apic-cr user name
+
+   # 8) Copy & load images to harbor server
+      # copy from host(local desktop) to guest (harbor server) 
+         scp -i ~/.ssh/oren4demo_rsa.prv ~/Downloads/apiconnect-image-tool_10.0.8.1.tar.gz  root@<IP>:/tmp
+      # Load apic images to guest docker 
+         docker load -i /tmp/apiconnect-image-tool_10.0.8.1.tar.gz
+      # Load the image from guest docker to harbor repository
+         docker run --rm apiconnect-image-tool-10.0.8.1 upload hcr.<IP>.nip.io/apic --username apic-cr --password Harbor12345
+         --> use --tls-verify=false flag to disable tls
+         docker run --rm apiconnect-image-tool-10.0.8.1 upload hcr.<IP>.nip.io/apic --username apic-cr --password Harbor12345 --tls-verify=false
+
+      # stop Minikube
+         minikube stop
+      # Start Minikube with insecure registry and specified configurations
+         --> verify that the registry URL is accessible
+         minikube start --addons=ingress --memory=40960 --cpus=16 --cni=flannel --install-addons=true --kubernetes-version=stable --insecure-registry=http://hcr.<IP>.nip.io
+      # start minikube dashboard with specific port
+         minikube dashboard --port=<PORT>
+
+   # 9) Additional troubleshooting
+      # How to Kill a Process Using a Port in Linux
+         lsof -i :8080 -t
+         kill -9 <PID>
+
+@@@@@@@@@@@@@@@@@@@@@@@ BACKUP @@@@@@@@@@@@@@@@@@@@@@@
+===============
+Minikube Issues
+===============
+Troubleshoot Minikube issue where the startup-script container is failing in the kube-system namespace.
+    - due to [vm.max_map_count] setting in your Minikube environment                
+    # kubectl logs -n kube-system set-maxmapcount-XXX                               - check the exact pod logs
+    # kubectl describe pod set-maxmapcount-XXX -n kube-system                       - get the pod's detailed description
+    # minikube ssh "sudo sysctl vm.max_map_count"                                   - check if the maxmapcount setting is actually applied
+    # sudo sysctl -w vm.max_map_count=262144                                        - [linux] set the correct max_map_count value
+    # minikube ssh 'sudo sysctl -w vm.max_map_count=262144'                         - [mac/windows] set the correct max_map_count value
+    # minikube ssh 'echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf'  - make the setting persistent
+    # kubectl delete pod -n kube-system set-maxmapcount-lnhnb                       - delete the failed pod to trigger a restart
+    
+
+===============
+Port Forwarding
+==-------------
+Info - Forward Ports With Iptables in Linux - https://ultahost.com/knowledge-base/forward-ports-iptables-linux/
+Task - Finding your network interfaces
+    [CMD] ip address | grep eth1
+     or
+    [CMD] ip -4 addr show scope global
+Task - Finding your APIC cluster network interfaces per the detected IP 
+    [CMD] ip address | grep br
+Task - Use iptables -S to query and get ready to delete a network interface that has already been configured.
+    [CMD] sudo iptables -S |grep 443
+Task - Create iptables entry 
+    Importent!!! - Verify that iptables has only one unique network interface for a specific port number
+    [CMD] sudo iptables -A FORWARD -i eth1 -o br-8d7a3e2782d0 -p tcp --syn --dport 443 -m conntrack --ctstate NEW -j ACCEPT
+Task - Delete iptables entry
+    [CMD] sudo iptables -D FORWARD -i eth1 -o br-8d7a3e2782d0 -p tcp -m tcp --dport 443 --tcp-flags FIN,SYN,RST,ACK SYN -m conntrack --ctstate NEW -j ACCEPT
+==----------------
+!!Must REBOOTING!!
+==================
+
+=========================================
+steps to create a private Docker registry 
+=========================================
+1. **Install Docker Registry**: First, you'll need to install the Docker Registry on a server or cloud instance. You can do this by running the following command:
+
+   ```bash
+   docker run -d -p 5000:5000 --restart=always --name registry registry:2
+   ```
+
+   This will start a Docker container running the official Docker Registry image.
+
+2. **Configure the Registry**: Next, you'll need to configure the registry. You can do this by creating a `config.yml` file with the following contents:
+
+   ```yaml
+   version: 0.1
+   log:
+     level: info
+     fields:
+       service: registry
+   storage:
+     filesystem:
+       rootdirectory: /var/lib/registry
+   http:
+     addr: :5000
+     secret: your-secret-key
+   ```
+
+   Replace `your-secret-key` with a strong, random secret key.
+
+3. **Mount the Registry Storage**: To persist the registry data, you'll need to mount a volume for the registry to use. You can do this by running the following command:
+
+   ```bash
+   docker run -d \
+     -p 5000:5000 \
+     --restart=always \
+     --name registry \
+     -v /path/to/registry-data:/var/lib/registry \
+     -e REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/var/lib/registry \
+     -e REGISTRY_HTTP_SECRET=your-secret-key \
+     registry:2
+   ```
+
+   Replace `/path/to/registry-data` with the local path where you want to store the registry data.
+
+4. **Push Images to the Private Registry**: To push an image to the private registry, you can use the following commands:
+
+   ```bash
+   # Tag the image with the registry address
+   docker tag my-image localhost:5000/my-image
+
+   # Push the image to the registry
+   docker push localhost:5000/my-image
+   ```
+
+   To pull images from the private registry, you can use the following command:
+
+   ```bash
+   docker pull localhost:5000/my-image
+   ```
+
+That's the basic process for setting up a private Docker registry. You can customize the configuration further, such as enabling authentication, setting up storage drivers, or integrating with a cloud storage service. Let me know if you have any other questions!
+
+
+@@@@@@@@@@@@@@@@@@@
+   sudo openssl req -x509 -new -nodes -sha512 -days 3650 -subj "/C=CN/ST=Tel-Aviv/L=Tel-Aviv/O=demo/OU=Personal/CN=hcr.161.156.164.61.nip.io" -key ca.key -out ca.crt
+      
+sudo openssl req -sha512 -new -subj "/C=CN/ST=Tel-Aviv/L=Tel-Aviv/O=demo/OU=Personal/CN=hcr.161.156.164.61.nip.io" -key demo-apic.key -out demo-apic.csr
+
+docker run --rm hello-world upload hcr.161.156.164.61.nip.io/test --username apic-cr --password Harbor12345
+docker run --rm hello-world upload hcr.161.156.164.61.nip.io/test --username apic-cr --password Harbor12345 --tls-verify=false
+
+
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "insecure-registries": ["hcr.161.156.164.61.nip.io:443","hcr.161.156.164.61.nip.io:80","161.156.164.61:443","161.156.164.61:80","0.0.0.>
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+
+{
+  "insecure-registries" : ["hcr.161.156.164.61.nip.io:443"],
+  "tls" : false
+}
+
+kubectl create secret docker-registry hcr-secret --docker-server=hcr.161.156.164.61.nip.io/apic --docker-username=apic-cr --docker-password=Harbor12345 -n apic
+               
+kubectl describe secret hcr-secret -n apic
+
+docker login hcr.161.156.164.61.nip.io:443 -u apic-cr -p Harbor12345
+   # 8) Copy & load images to harbor server
+      # copy from host(local desktop) to guest (harbor server) 
+      scp -i ~/.ssh/<YOUR_SSH>.prv ~/Downloads/apiconnect-image-tool_10.0.9.0.tar.gz  root@<IP>:/tmp
+      # Load apic images to guest docker 
+         docker load -i /tmp/apiconnect-image-tool_10.0.9.0.tar.gz
+      # Load the image from guest docker to harbor repository
+         docker run --rm apiconnect-image-tool_10.0.9.0 upload hcr.<IP>.nip.io/apic --username apic-cr --password Harbor12345
+         --> use --tls-verify=false flag to disable tls
+         docker run --rm apiconnect-image-tool_10.0.9.0 upload hcr.<IP>.nip.io/apic --username apic-cr --password Harbor12345 --tls-verify=false
+
+         docker run --rm apiconnect-image-tool-10.0.9.0 upload hcr.161.156.164.61.nip.io/apic --username apic-cr --password Harbor12345 --tls-verify=false
+
+
+
+=============
+minikube -p demo start --container-runtime=containerd --cni=cilium --memory=40960 --cpus=16 --insecure-registry=hcr.161.156.164.61.nip.io --kubernetes-version=stable  
+kubectl create ns apic
+kubectl create secret docker-registry hcr-secret --docker-server=hcr.161.156.164.61.nip.io/apic --docker-username=apic-cr --docker-password=Harbor12345 -n apic
+minikube -p demo addons configure ingress
+minikube -p demo addons disable ingress
+minikube -p demo addons enable ingress
+
+minikube -p demo addons list
+
+From host for testing
+---------------------
+docker pull hello-world
+docker tag hello-world hcr.161.156.164.61.nip.io:443/test/hello-world
+
+docker login hcr.161.156.164.61.nip.io:443 -u apic-cr -p Harbor12345
+docker push hcr.161.156.164.61.nip.io:443/test/hello-world
+
+From host for apic
+------------------
+docker load -i /tmp/apiconnect-image-tool_10.0.9.0.tar.gz
+docker tag apiconnect-image-tool-10.0.9.0 hcr.161.156.164.61.nip.io:443/apic9/apiconnect-image-tool-10.0.9.0
+docker login hcr.161.156.164.61.nip.io:443 -u apic-cr -p Harbor12345
+
+docker push hcr.161.156.164.61.nip.io:443/apic9/apiconnect-image-tool-10.0.9.0
+
+From minikube ssh for testing
+-----------------------------
+sudo crictl pull --creds "apic-cr:Harbor12345" hcr.161.156.164.61.nip.io/test/hello-world
+sudo crictl pull --creds "apic-cr:Harbor12345" hcr.161.156.164.61.nip.io/apic9tst/ibm-apiconnect-operator@sha256:4ffc70c2e4a4fbb00a617bf79e13633359d6c13c52d21864de9ccadb886afd18
+sudo crictl pull --creds "apic-cr:Harbor12345" hcr.161.156.164.61.nip.io/apic9tst/ibm-apiconnect-management-edb-licence@sha256:4d2f2b6aaf59f0e3e3bcfc4e8c55bef586ec4b1a497d3b8ff976b9e1c89ec3b2
+sudo crictl pull --creds "apic-cr:Harbor12345" hcr.161.156.164.61.nip.io/apic9tst/ibm-apiconnect-management-edb-operator@sha256:075d7d6a303f1bec7106b4ffdb0220e6fb0ce497255593ca4615f108c08eaa13
+
+apic9tst
+docker run --rm apiconnect-image-tool-10.0.9.0 upload hcr.161.156.164.61.nip.io:443/apic9tst --username apic-cr --password Harbor12345 --tls-verify=false
+
+#IMPORTENT!!! - Download the full image Containers
+#  IBM® API Connect v10.0.9.0 for Containers 
+Enter Private Registry URL: hcr.161.156.164.61.nip.io
+Enter Private Registry Project Name: apic9tst
+Enter Private Registry User Name: apic-cr
+Enter Private Registry Password: Harbor

@@ -1,0 +1,27 @@
+1) Start Harbor configuration
+    [VERIFY] http://hcr.<IP>.nip.io
+    [VERIFY] From host execute: docker login -u admin -p Harbor12345 hcr.161.156.164.61.nip.io
+    [VERIFY] From minikube ssh execute: docker login -u admin -p Harbor12345 hcr.161.156.164.61.nip.io
+2) docker load aaaaa --->
+    [LOAD]
+3) Setting Harbor project and user via UI
+    3.1) Create Harbor project
+         [CONFIG] Project name: apic
+    3.2) Create Harbor user
+         [CONFIG] User name: apic-cr
+    3.3) Attched Harbor user to project
+         [CONFIG] apic-cr --> apic
+4) Post installtion - verifing docker on host [hello-world]
+   [DOCKER on HOST] docker pull hello-world
+   [DOCKER on HOST] docker tag hello-world hcr.161.156.164.61.nip.io:443/test/hello-world
+   [DOCKER on HOST] docker login hcr.161.156.164.61.nip.io:443 -u apic-cr -p Harbor12345
+   [DOCKER on HOST] docker push hcr.161.156.164.61.nip.io:443/test/hello-world
+5) Post installtion - verifing docker on host [apiconnect-image-tool-10.0.9.0]
+   [LOAD IMAGE to DOCKER on HOST] docker load -i /tmp/apiconnect-image-tool_10.0.9.0.tar.gz
+   [LOGIN to DOCKER on HOST] docker login hcr.161.156.164.61.nip.io:443 -u apic-cr -p Harbor12345
+   [UPLOAD IMAGE TO HARBOR] docker run --rm apiconnect-image-tool-10.0.9.0 upload hcr.161.156.164.61.nip.io/apic --username apic-cr --password Harbor12345 --tls-verify=false
+6) Post installtion - verifing containerd on minikube [hello-world] is functioning
+   [PULL IMAGE] sudo crictl pull --creds "apic-cr:Harbor12345" hcr.161.156.164.61.nip.io/test/hello-world
+7) Post installtion - verifing containerd on minikube [testing pulling: ibm-apiconnect-operator image from harbor]
+   [PULL IMAGE] sudo crictl pull --creds "apic-cr:Harbor12345" hcr.161.156.164.61.nip.io/apic9tst/ibm-apiconnect-operator@sha256:4ffc70c2e4a4fbb00a617bf79e13633359d6c13c52d21864de9ccadb886afd18
+

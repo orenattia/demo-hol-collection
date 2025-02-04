@@ -1,0 +1,5 @@
+1) Execute as root the following:
+    [SHELL] ./01-install-docker-with-dockercompose.sh
+2) Execute as sudo user the following:
+    [PRE] Prepared registry container name (e.g hcr.<IP>>.nip.io)
+    [SHELL] ./02-install-minikube-with-k8utilities.sh

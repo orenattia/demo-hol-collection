@@ -1,0 +1,142 @@
+=============================================================================
+Setup Harbor Self-Hosted Container Registry
+=== https://www.loft.sh/blog/harbor-kubernetes-self-hosted-container-registry
+=============================================================================
+# Harbor Installation and Configuration
+   1) check Harbor prerequisites
+   2) download Harbor
+   3) configure the Harbor YML File
+   4) [Optional] configure HTTPS Access to Harbor
+   5) [Optional] configure Enabling Internal TLS
+   6) run the Installer Script
+   7) Create Harbor project and attach a user to it 
+   8) Copy & load images to harbor server
+   9) Additional troubleshooting
+
+   # 1) check prerequisites
+      # Docker Engine	Version 20.10.10-ce+ or higher	For installation instructions, see Docker Engine documentation
+         docker version
+      # Docker Compose	docker-compose (v1.18.0+) or docker compose v2 (docker-compose-plugin)	For installation instructions, see Docker Compose documentation
+         docker compose version
+      # OpenSSL	Latest is preferred
+         openssl version
+        
+      # Execute as sudo user the following:
+            ./01-config-harbor.sh
+
+      # Port Protocol Description
+      # 443	   HTTPS	Harbor portal and core API accept HTTPS requests on this port. You can change this port in the configuration file.
+      # 4443	HTTPS	Connections to the Docker Content Trust service for Harbor. You can change this port in the configuration file.
+      # 80	   HTTP	Harbor portal and core API accept HTTP requests on th
+      # execute the following iptables commands
+         sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+         sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+         sudo iptables -A INPUT -p tcp --dport 4443 -j ACCEPT
+         # allow trafic to minikube dashboard on poty 8080 if needed
+         sudo iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+      # test the ports are opend
+         nmap -p 80,443,4443 127.0.0.1
+         netstat -tuln | grep -E '(:80|:443|:4443)'
+         ss -tuln | grep -E '(:80|:443|:4443)'
+
+   # [Optional] - This is execute and downloaded by: [demo-collections/harbor-registry-setup/01-config-harbor.sh]
+   # 2) download Harbor
+      sudo mkdir setup-harbor
+      cd setup-harbor/
+      sudo wget https://github.com/goharbor/harbor/releases/download/v2.12.2/harbor-offline-installer-v2.12.2.tgz
+      sudo tar -xzvf harbor-offline-installer-v2.12.2.tgz
+
+   # [Required]
+   # 3) execute: [./01-config-harbor.sh] Every step listed above is executed out automatically. 
+      # ############
+      # Do the following steps only if you have to manually configure it!
+      # ############
+      # Edit harbor.yml.tmpl and Save As harbor.yml
+      [PRE]
+         --> hostname: hcr.<IP>.nip.io
+      [SET INTERNAL TLS]
+         uncomment --> internal_tls:
+         uncomment --> enabled: true
+         add --> dir: /etc/harbor/tls/internal
+      [HTTPS] 
+         -->  certificate: /etc/docker/certs.d/hcr.<IP>.nip.io/demo-apic.cert
+         -->  private_key: /etc/docker/certs.d/hcr.<IP>.nip.io/demo-apic.key
+      [HTTP]
+         --> Edit /etc/docker/daemon.json file:
+               {
+                  "insecure-registries" : ["hcr.<IP>.nip.io:5000","0.0.0.0"]
+               }
+      [POST]
+         systemctl restart docker
+
+   # [Required] 
+   # 4) configure HTTPS Access to Harbor
+      sudo mkdir cert
+      cd cert/
+      # Generate a Certificate Authority Certificate
+         [INFO] Generate a CA certificate private key
+         sudo openssl genrsa -out ca.key 4096
+         [INFO] Generate the CA certificate
+         sudo openssl req -x509 -new -nodes -sha512 -days 3650 -subj "/C=CN/ST=Tel-Aviv/L=Tel-Aviv/O=demo/OU=Personal/CN=hcr.<IP>.nip.io" -key ca.key -out ca.crt
+      # Generate a Server Certificate
+         [INFO] Generate a private key
+         sudo openssl genrsa -out demo-apic.key 4096
+         [INFO] Generate a certificate signing request (CSR)
+         sudo openssl req -sha512 -new -subj "/C=CN/ST=Tel-Aviv/L=Tel-Aviv/O=demo/OU=Personal/CN=hcr.<IP>.nip.io" -key demo-apic.key -out demo-apic.csr
+      # Generate an x509 v3 extension file
+        cat > v3.ext <<-EOF
+        authorityKeyIdentifier=keyid,issuer
+        basicConstraints=CA:FALSE
+        keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+        extendedKeyUsage = serverAuth
+        subjectAltName = @alt_names
+
+        [alt_names]
+        DNS.1=demo-apic.com
+        DNS.2=demo-apic
+        DNS.3=hcr.<IP>.io
+        EOF 
+
+      # Use the v3.ext file to generate a certificate for your Harbor host
+         sudo openssl x509 -req -sha512 -days 3650 -extfile v3.ext -CA ca.crt -CAkey ca.key -CAcreateserial -in demo-apic.csr -out demo-apic.crt
+      # Copy the server certificate and key into the certficates folder on your Harbor host
+         sudo mkdir -p /data/cert/
+         sudo cp demo-apic.crt /data/cert/
+         sudo cp demo-apic.key /data/cert/
+      # Convert yourdomain.com.crt to yourdomain.com.cert, for use by Docker
+         sudo openssl x509 -inform PEM -in demo-apic.crt -out demo-apic.cert
+      # Copy the server certificate, key and CA files into the Docker certificates folder on the Harbor host
+         sudo mkdir -p /etc/docker/certs.d/hcr.161.156.84.110.nip.io/
+         sudo cp demo-apic.cert /etc/docker/certs.d/hcr.161.156.84.110.nip.io/
+         sudo cp demo-apic.key /etc/docker/certs.d/hcr.161.156.84.110.nip.io/
+         sudo cp ca.crt /etc/docker/certs.d/hcr.161.156.84.110.nip.io/
+      # Restart Docker Engine
+         systemctl restart docker
+
+   # [Optional] 
+   # 5) configure Enabling Internal TLS
+      [INFO] https://goharbor.io/docs/2.12.0/install-config/configure-internal-tls/
+      # as a root user execute the following to generate configure internal TLS communication between Harbor component
+         docker run -v /:/hostfs goharbor/prepare:v2.12.1 gencert -p /etc/harbor/tls/internal
+
+   # [Required] 
+   # 6) apply the configuration and run the Installer Script
+      # Run as sudo user the prepare script to enable HTTPS
+         cd harbor
+         sudo ./prepare
+      # If Harbor is running, stop and remove the existing instance
+         sudo docker-compose down -v
+      # Restart Harbor
+         sudo docker-compose up -d
+
+   # [Required] 
+   # 7) run the Installer Script
+      # Execute as sudo user the following:
+         ./02-start-harbor.sh
+      # Verify installation (usually when deploing using helm)
+         kubectl get pods
+         kubectl get pvc
+         kubectl get svc
+         kubectl get ingress
+      # Verify access to the private docker repository
+         docker login https://hcr.<IP>.nip.io

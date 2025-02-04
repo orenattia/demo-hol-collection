@@ -1,0 +1,81 @@
+
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+
+apiVersion: portal.apiconnect.ibm.com/v1beta1
+kind: PortalCluster
+metadata:
+  name: portal
+  labels: {
+    app.kubernetes.io/instance: "portal",
+    app.kubernetes.io/managed-by: "ibm-apiconnect",
+    app.kubernetes.io/name: "portal"
+  }
+spec:
+  version: 10.0.6.0
+  profile: n1xc2.m8
+  imagePullSecrets:
+    - apic-registry-secret
+  imageRegistry: cp.icr.io/cp/apic
+  mgmtPlatformEndpointCASecret:
+    secretName: ingress-ca # Usually ingress-ca
+  mgmtConsumerEndpointCASecret:
+    secretName: ingress-ca # Usually ingress-ca
+  #mgmtPlatformEndpointSvcCASecret:
+  #  secretName:  # Usually management-ca
+  #mgmtConsumerEndpointSvcCASecret:
+  #  secretName:  # Usually management-ca  
+  portalAdminEndpoint:
+    #ingressClassName: $INGRESS_CLASS
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: api.portal.158.177.173.158.nip.io
+      secretName: portal-admin
+  portalUIEndpoint:
+    #ingressClassName: $INGRESS_CLASS
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: portal.158.177.173.158.nip.io
+      secretName: portal-web
+  databaseVolumeClaimTemplate:
+    storageClassName: standard
+    volumeSize: 15Gi
+  databaseLogsVolumeClaimTemplate:
+    storageClassName: standard
+    volumeSize: 6Gi
+  webVolumeClaimTemplate:
+    storageClassName: standard
+    volumeSize: 8Gi
+  backupVolumeClaimTemplate:
+    storageClassName: standard
+    volumeSize: 15Gi
+  adminVolumeClaimTemplate:
+    storageClassName: standard
+    volumeSize: 6Gi
+  certVolumeClaimTemplate:
+    storageClassName: standard
+    volumeSize: 4Gi
+  adminClientSubjectDN: CN=portal-admin-client,O=cert-manager
+  microServiceSecurity: certManager
+  certManagerIssuer:
+    name: selfsigning-issuer
+    kind: Issuer
+  license:
+    accept: true
+    use: production
+    license: L-KZXM-S7SNCU
+  mtlsValidateClient: true
