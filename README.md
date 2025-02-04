@@ -2,15 +2,12 @@
 
 This guide provides step-by-step instructions to install IBM API Connect on Minikube.
 
-#
 ## 1) Prerequisites Software and Hardware
 
 Before proceeding, ensure you have the following installed:
 - **Operating System**: Ubuntu 24.04 (At least *16 CPU* cores, *40GB RAM*, and *50GB* disk space)
 - **IBM ID Cloud Account**: You must have an IBM ID Cloud account in order to download IBM API Connect for online installation. The key can be found at [IBM Entitlement KEY](https://myibm.ibm.com/products-services/containerlibrary).
 
-#
-#
 ## 2) Prerequisites Tools
 
 This section provides step-by-step instructions to execute the provided scripts for setting up Docker, Docker Compose, Minikube, and Kubernetes utilities. Ensure you follow the steps carefully.
@@ -82,8 +79,6 @@ This section provides step-by-step instructions to execute the provided scripts 
 
 ---
 
-#
-#
 ## 3) Configure HTTPS Access to Harbor Registry
 **Optional**
 To configure HTTPS, you must create SSL certificates. You can use certificates that are signed by a trusted third-party CA, or you can use self-signed certificates. This section describes how to use OpenSSL to create a CA, and how to use your CA to sign a server certificate and a client certificate. You can use other CA providers, for example Let’s Encrypt.
@@ -94,7 +89,6 @@ prerequisites/generate-ssl-certificate.sh 123.123.11.22
 ```
 As a result, all certificates will be generated in the [cert/] folder.
 
-#
 ## 4) Configure & Start Harbor Registry
 To configure HTTPS, you must create SSL certificates. You can use certific
 1. **Execution**:
