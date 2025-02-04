@@ -112,6 +112,7 @@ sudo cp harbor.yml.tmpl harbor.yml
 sudo sed -i "s/reg.mydomain.com/$REGISTRY_URL/g" harbor.yml
 sudo sed -i 's|/your/certificate/path|/data/cert/demo-apic.crt|g; s|/your/private/key/path|/data/cert/demo-apic.key|g' harbor.yml
 
+sudo ./prepare
 sudo systemctl restart docker
 sudo docker-compose down -v
 sudo docker-compose up -d
