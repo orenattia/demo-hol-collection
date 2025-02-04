@@ -79,7 +79,17 @@ This section provides step-by-step instructions to execute the provided scripts 
 
 ---
 
-## 3) Configure HTTPS Access to Harbor Registry
+## 3) Configure Harbor Private Registry (when installing off-line installtion)
+
+### 3.1) Configure Harbor Registry
+To configure HTTPS, you must create SSL certificates. You can use certific
+- **Execution**:
+   - Run the script as a **sudo user** using the following command:
+```bash
+harbor-registry-setup/01-config-harbor.sh
+```
+
+### 3.2) Configure HTTPS Access to Harbor Registry
 **Optional**
 To configure HTTPS, you must create SSL certificates. You can use certificates that are signed by a trusted third-party CA, or you can use self-signed certificates. This section describes how to use OpenSSL to create a CA, and how to use your CA to sign a server certificate and a client certificate. You can use other CA providers, for example Let’s Encrypt.
 
@@ -89,41 +99,36 @@ prerequisites/generate-ssl-certificate.sh 123.123.11.22
 ```
 As a result, all certificates will be generated in the [cert/] folder.
 
-## 4) Configure & Start Harbor Registry
-To configure HTTPS, you must create SSL certificates. You can use certific
-1. **Execution**:
-   - Run the script as a **sudo user** using the following command:
-```bash
-harbor-registry-setup/01-config-harbor.sh
-```
-2. **Execution**:
+### 3.3) Start Harbor Registry
+- **Execution**:
    - Run the script as a **sudo user** using the following command:
 ```bash
 harbor-registry-setup/02-start-harbor.sh
 ```
-3. **Setting Harbor project and user via UI**:
+- **Setting Harbor project and user via UI**:
    - Execute the following tasks from the Harbor UI:
       login to: [e.g. https://hcr.161.156.164.61.nip.io]
 ```bash
-  3.1) Create Harbor project
+  - Create Harbor project
         Project name: apic
-  3.2) Create Harbor user
+  - Create Harbor user
         User name: apic-cr
-  3.3) Attched Harbor user to project
+  - Attched Harbor user to project
       apic-cr --> apic
 ```
-4. **Verify Harbor installation**:
+- **Verify Harbor installation**:
 ```bash
   kubectl get pods
   kubectl get pvc
   kubectl get svc
   kubectl get ingress
 ```
-5. **Verify access to the private docker repository**:
+- **Verify access to the private docker repository**:
    - Execute the following command:
 ```bash
 docker login https://hcr.<IP>.nip.io -u HARBOR_USER_NAME -P HARBOR_PASSWORD
 ```
+
 #
 ## Conclusion
 
