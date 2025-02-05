@@ -392,14 +392,14 @@ export ADMIN_CREDENTIALS=$admin_credentials
 # Execute [Infrastructure Preparation] script with proper quoting and parameter handling
 output_log="${output_log_time}-01-ibm-apic-infra-preparations.log"
 echo -e "\n"
-echo -e "Executed command: ./01-ibm-apic-infra-preparations.sh \
+echo -e "Executed command: ./01-apic-infra-preparations.sh \
     \"${APIC_VERSION}\" \"${LICENSE_KEY}\" \"${CERT_MANAGER_VERSION}\" \
     \"${NGINX_IP}\" \"${IBM_ENTITLEMENT_KEY}\" \"${ADMIN_CREDENTIALS}\" \
     \"${MINIKUBE_PROFILE}\" \
     \"${REGISTRY_URL}\" \"${REGISTRY_PROJECT}\" \"${REGISTRY_USERNAME}\" \"${REGISTRY_PASSWORD}\" \
     \"${MANAGEMENT_PROFILE}\" \"${PORTAL_PROFILE}\" \"${ANALYTICS_PROFILE}\" \"${DATAPOWER_PROFILE}\""
 
-script -a "${output_log}" -c "./01-ibm-apic-infra-preparations.sh \
+script -a "${output_log}" -c "./01-apic-infra-preparations.sh \
     \"${APIC_VERSION}\" \"${LICENSE_KEY}\" \"${CERT_MANAGER_VERSION}\" \
     \"${NGINX_IP}\" \"${IBM_ENTITLEMENT_KEY}\" \"${ADMIN_CREDENTIALS}\" \
     \"${MINIKUBE_PROFILE}\" \
@@ -410,23 +410,23 @@ echo -e "\n"
 
 # Check if [Infrastructure Preparation] script was successful
 if [ $? -eq 0 ]; then
-    echo -e "${GREEN} [INFO] ./01-ibm-apic-infra-preparations.sh executed successfully.${NC}"
+    echo -e "${GREEN} [INFO] ./01-apic-infra-preparations.sh executed successfully.${NC}"
 else
-    echo -e "${RED} [INFO] ./01-ibm-apic-infra-preparations.sh failed.${NC}" >&2
+    echo -e "${RED} [INFO] ./01-apic-infra-preparations.sh failed.${NC}" >&2
     exit 1
 fi
 
 # Execute [Cluster Preparing] script with proper quoting and parameter handling
 output_log="${output_log_time}-02-ibm-apic-cluster-preparations.log"
 echo -e "\n"
-echo -e "Executed command: ./02-ibm-apic-cluster-preparations.sh \
+echo -e "Executed command: ./02-apic-cluster-preparations.sh \
     \"${APIC_VERSION}\" \"${LICENSE_KEY}\" \"${CERT_MANAGER_VERSION}\" \
     \"${NGINX_IP}\" \"${IBM_ENTITLEMENT_KEY}\" \"${ADMIN_CREDENTIALS}\" \
     \"${MINIKUBE_PROFILE}\" \
     \"${REGISTRY_URL}\" \"${REGISTRY_PROJECT}\" \"${REGISTRY_USERNAME}\" \"${REGISTRY_PASSWORD}\" \
     \"${MANAGEMENT_PROFILE}\" \"${PORTAL_PROFILE}\" \"${ANALYTICS_PROFILE}\" \"${DATAPOWER_PROFILE}\""
 
-script -a "${output_log}" -c "./02-ibm-apic-cluster-preparations.sh \
+script -a "${output_log}" -c "./02-apic-cluster-preparations.sh \
     \"${APIC_VERSION}\" \"${LICENSE_KEY}\" \"${CERT_MANAGER_VERSION}\" \
     \"${NGINX_IP}\" \"${IBM_ENTITLEMENT_KEY}\" \"${ADMIN_CREDENTIALS}\" \
     \"${MINIKUBE_PROFILE}\" \
@@ -437,23 +437,23 @@ echo -e "\n"
 
 # Check if [Cluster Preparing] script was successful
 if [ $? -eq 0 ]; then
-    echo -e "${GREEN} [INFO] ./02-ibm-apic-cluster-preparations.sh executed successfully.${NC}"
+    echo -e "${GREEN} [INFO] ./02-apic-cluster-preparations.sh executed successfully.${NC}"
 else
-    echo -e "${RED} [INFO] ./02-ibm-apic-cluster-preparations.sh failed.${NC}" >&2
+    echo -e "${RED} [INFO] ./02-apic-cluster-preparations.sh failed.${NC}" >&2
     exit 1
 fi
 
 # Execute [Cluster Installation] script with proper quoting and parameter handling
 output_log="${output_log_time}-03-ibm-apic-cluster-installation.log"
 echo -e "\n"
-echo -e "Executed command: ./03-ibm-apic-cluster-installation.sh \
+echo -e "Executed command: ./03-apic-cluster-installation.sh \
    \"${APIC_VERSION}\" \"${LICENSE_KEY}\" \"${CERT_MANAGER_VERSION}\" \
    \"${NGINX_IP}\" \"${IBM_ENTITLEMENT_KEY}\" \"${ADMIN_CREDENTIALS}\" \
    \"${MINIKUBE_PROFILE}\" \
    \"${REGISTRY_URL}\" \"${REGISTRY_PROJECT}\" \"${REGISTRY_USERNAME}\" \"${REGISTRY_PASSWORD}\" \
    \"${MANAGEMENT_PROFILE}\" \"${PORTAL_PROFILE}\" \"${ANALYTICS_PROFILE}\" \"${DATAPOWER_PROFILE}\""
 
-script -a "${output_log}" -c "./03-ibm-apic-cluster-installation.sh \
+script -a "${output_log}" -c "./03-apic-cluster-installation.sh \
    \"${APIC_VERSION}\" \"${LICENSE_KEY}\" \"${CERT_MANAGER_VERSION}\" \
    \"${NGINX_IP}\" \"${IBM_ENTITLEMENT_KEY}\" \"${ADMIN_CREDENTIALS}\" \
    \"${MINIKUBE_PROFILE}\" \
@@ -464,9 +464,9 @@ echo -e "\n"
 
 # Check if [Cluster Installation] script was successful
 if [ $? -eq 0 ]; then
-    echo -e "${GREEN} [INFO] 03-ibm-apic-cluster-installation.sh executed successfully.${NC}"
+    echo -e "${GREEN} [INFO] 03-apic-cluster-installation.sh executed successfully.${NC}"
 else
-    echo -e "${RED} [INFO] 03-ibm-apic-cluster-installation.sh failed.${NC}" >&2
+    echo -e "${RED} [INFO] 03-apic-cluster-installation.sh failed.${NC}" >&2
     exit 1
 fi
 

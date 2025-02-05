@@ -152,6 +152,35 @@ harbor-registry-setup/02-start-harbor.sh
 docker login https://hcr.<IP>.nip.io -u HARBOR_USER_NAME -P HARBOR_PASSWORD
 ```
 
+## 4) Installing API Connect 
+This section provides step-by-step instructions to installing API Connect 10.x. 
+Ensure you follow the steps carefully.
+
+### 4.1) Setup APIC
+When installing online, make sure you successfully ping the IBM Public Registry URL by executing: ping cp.icr.io.
+**Execution**:
+   - Run the script as the **sudo user** using the following command:
+     ```bash
+     cd demo-hol-collections/ibm-apic-k8-setup/
+     sudo ./10-main-apic-setup.sh
+     ```
+---
+
+### 4.2) Customization Parameters Setup Settings
+When installing online, make sure you successfully ping the IBM Public Registry URL by executing: ping cp.icr.io.
+**Execution**:
+   - Enter the following parameters:
+     ```bash
+     Please confirm that all of the prerequisites have been installed before proceeding? (Y/n): Y
+
+     1) [Off-Line setup] ver 10.0.9.0 [Air-Gap Setup using Harbor Private Registry] 
+     2) [On-Line setup] ver 10.0.6.0 [default]  [Online Setup using IBM Registry] 
+     3) [On/Off setup] ver 10.0.5.8 
+     4) Exit
+      Enter selection [2]: 1
+
+     ```
+---
 #
 ## Conclusion
 
