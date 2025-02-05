@@ -20,7 +20,13 @@ This section provides step-by-step instructions to execute the provided scripts 
    - Ensure you have `root` privileges on the system.
    - Verify that the script `01-install-docker-with-dockercompose.sh` is present in the current directory and is executable.
 
-2. **Execution**:
+2. **Required Harbor Network Ports**
+   - Harbor requires that the following ports be open on the target host.
+     Execute the following iptables commands:
+         sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+         sudo iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+         sudo iptables -A INPUT -p tcp --dport 4443 -j ACCEPT
+3. **Execution**:
    - Run the script as the **root user** using the following command:
      ```bash
      cd demo-hol-collections/prerequisites/
@@ -28,7 +34,7 @@ This section provides step-by-step instructions to execute the provided scripts 
      ```
    - This script will install Docker and Docker Compose on your system.
 
-3. **Verification**:
+4. **Verification**:
    - After the script completes, verify the installation by checking the Docker version:
      ```bash
      docker --version
@@ -95,7 +101,7 @@ To configure HTTPS, you must create SSL certificates. You can use certificates t
 
 You can create self-signed certificates if you don't have any SSL certificates by executing the following command:
 ```bash
-prerequisites/generate-ssl-certificate.sh 123.123.11.22
+harbor-registry-setup/generate-ssl-certificate.sh 123.123.11.22
 ```
 As a result, all certificates will be generated in the [cert/] folder.
 

@@ -22,7 +22,7 @@ spec:
   version: 10.0.9.0
   imagePullSecrets:
   - apic-registry-secret
-  imageRegistry: hcr.161.156.164.61.nip.io/apic
+  imageRegistry: hcr.158.176.5.141.nip.io/apic
   profile: n1xc2.m16
   portal:
     admin:
@@ -38,35 +38,35 @@ spec:
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: admin.161.156.164.61.nip.io
+    - name: admin.158.176.5.141.nip.io
       secretName: cm-endpoint
   apiManagerEndpoint:
     #ingressClassName: $INGRESS_CLASS
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: manager.161.156.164.61.nip.io
+    - name: manager.158.176.5.141.nip.io
       secretName: apim-endpoint
   consumerCatalogEndpoint:
     #ingressClassName: $INGRESS_CLASS
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: consumer-catalog.161.156.164.61.nip.io
+    - name: consumer-catalog.158.176.5.141.nip.io
       secretName: consumer-catalog-endpoint
   platformAPIEndpoint:
     #ingressClassName: $INGRESS_CLASS
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: api.161.156.164.61.nip.io
+    - name: api.158.176.5.141.nip.io
       secretName: api-endpoint
   consumerAPIEndpoint:
     #ingressClassName: $INGRESS_CLASS
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: consumer.161.156.164.61.nip.io
+    - name: consumer.158.176.5.141.nip.io
       secretName: consumer-endpoint
   databaseVolumeClaimTemplate:
     storageClassName: standard

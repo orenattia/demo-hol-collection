@@ -1144,10 +1144,10 @@ spec:
         - name: APPLIANCE
           value: "false"
         - name: IMAGE_REGISTRY
-          value: hcr.161.156.164.61.nip.io/apic
+          value: hcr.158.176.5.141.nip.io/apic
         - name: ENABLE_PPROF
           value: "false"
-        image: hcr.161.156.164.61.nip.io/apic/ibm-apiconnect-operator@sha256:4ffc70c2e4a4fbb00a617bf79e13633359d6c13c52d21864de9ccadb886afd18
+        image: hcr.158.176.5.141.nip.io/apic/ibm-apiconnect-operator@sha256:4ffc70c2e4a4fbb00a617bf79e13633359d6c13c52d21864de9ccadb886afd18
         name: ibm-apiconnect
         ports:
         - containerPort: 9443
@@ -1188,7 +1188,7 @@ spec:
           value: ibm-apiconnect-mutating-webhook-configuration
         - name: VALIDATING_WEBHOOK
           value: ibm-apiconnect-validating-webhook-configuration
-        image: hcr.161.156.164.61.nip.io/apic/ibm-apiconnect-operator@sha256:4ffc70c2e4a4fbb00a617bf79e13633359d6c13c52d21864de9ccadb886afd18
+        image: hcr.158.176.5.141.nip.io/apic/ibm-apiconnect-operator@sha256:4ffc70c2e4a4fbb00a617bf79e13633359d6c13c52d21864de9ccadb886afd18
         name: webhook
         resources:
           limits:
@@ -1228,7 +1228,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.uid
-        image: hcr.161.156.164.61.nip.io/apic/ibm-apiconnect-operator@sha256:4ffc70c2e4a4fbb00a617bf79e13633359d6c13c52d21864de9ccadb886afd18
+        image: hcr.158.176.5.141.nip.io/apic/ibm-apiconnect-operator@sha256:4ffc70c2e4a4fbb00a617bf79e13633359d6c13c52d21864de9ccadb886afd18
         name: webhook-delete
         resources:
           limits:

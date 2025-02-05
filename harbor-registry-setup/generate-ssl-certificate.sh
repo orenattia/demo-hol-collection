@@ -23,8 +23,8 @@ echo -e "${YELLOW}Setting up certificates with following parameters:${NC}"
 echo -e "${YELLOW}Harbor Registry Name: ${HARBORREGISTRYNAME} ${NC}"
 
 # Create certificate directory
-sudo mkdir -p cert
-cd cert/
+sudo mkdir -p harbor/cert
+cd harbor/cert
 
 # Generate CA certificate private key
 echo -e "${BLUE}Generating CA certificate private key... ${NC}"
@@ -48,7 +48,7 @@ sudo openssl req -sha512 -new \
 
 # Generate v3.ext file
 echo -e "${BLUE}Generating v3.ext file... ${NC}"
-cat > v3.ext <<-EOF
+sudo bash -c 'cat > v3.ext <<-EOF
 authorityKeyIdentifier=keyid,issuer
 basicConstraints=CA:FALSE
 keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
@@ -58,8 +58,8 @@ subjectAltName = @alt_names
 [alt_names]
 DNS.1=demo-apic.com
 DNS.2=demo-apic
-DNS.3=${HARBORREGISTRYNAME}
-EOF
+DNS.3='"${HARBORREGISTRYNAME}"'
+EOF'
 
 # Generate certificate for Harbor host
 echo -e "${BLUE}Generating certificate for Harbor host... ${NC}"

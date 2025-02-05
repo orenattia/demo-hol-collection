@@ -30,7 +30,7 @@ menu() {
     echo -e "   ${YELLOW}***Yellow indicates the tested version***${NC}"
     echo -e "1) ${BLUE}[Off-Line setup] ver 10.0.9.0 [Air-Gap Setup using Harbor Private Registry] ${NC}"
     echo -e "2) ${BLUE}[On-Line setup] ${YELLOW}ver 10.0.6.0 [default] ${BLUE} [Online Setup using IBM Registry] ${NC}"
-    echo -e "3) ${BLUE}[On/Off setup] ${NC}ver 10.0.5.8"
+    echo -e "3) ${BLUE}[On/Off setup] ver 10.0.5.8 ${NC}"
     echo -e "4) Exit"
     
     read -p "Enter selection [2]: " selection

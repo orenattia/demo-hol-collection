@@ -23,21 +23,21 @@ spec:
   profile: n1xc1.m8
   imagePullSecrets:
   - datapower-docker-local-cred
-  imageRegistry: hcr.161.156.164.61.nip.io/apic9tst
+  imageRegistry: hcr.158.176.5.141.nip.io/apic
   apicGatewayServiceV5CompatibilityMode: false
   gatewayEndpoint:
     #ingressClassName: $INGRESS_CLASS
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: rgw.161.156.164.61.nip.io
+    - name: rgw.158.176.5.141.nip.io
       secretName: gwv6-endpoint
   gatewayManagerEndpoint:
     #ingressClassName: $INGRESS_CLASS
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: rgwd.161.156.164.61.nip.io
+    - name: rgwd.158.176.5.141.nip.io
       secretName: gwv6-manager-endpoint
   apicGatewayServiceTLS:
     secretName: gateway-service

@@ -26,7 +26,7 @@ spec:
   profile: n1xc2.m16
   imagePullSecrets:
   - apic-registry-secret
-  imageRegistry: hcr.161.156.84.163.nip.io/apic
+  imageRegistry: hcr.158.176.5.141.nip.io/apic
   microServiceSecurity: certManager
   certManagerIssuer:
     name: selfsigning-issuer
@@ -37,7 +37,7 @@ spec:
       annotations:
         cert-manager.io/issuer: ingress-issuer
       hosts: 
-      - name: ai.192.168.49.2.nip.io
+      - name: ai.158.176.5.141.nip.io
         secretName: analytics-ai-endpoint
     clientSubjectDN: CN=analytics-ingestion-client,O=cert-manager
   mtlsValidateClient: true

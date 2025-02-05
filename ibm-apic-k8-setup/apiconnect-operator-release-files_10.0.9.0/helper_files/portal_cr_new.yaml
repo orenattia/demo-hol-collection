@@ -23,7 +23,7 @@ spec:
   profile: n1xc2.m8
   imagePullSecrets:
     - apic-registry-secret
-  imageRegistry: hcr.161.156.84.163.nip.io/apic
+  imageRegistry: hcr.158.176.5.141.nip.io/apic
   mgmtPlatformEndpointCASecret:
     secretName: ingress-ca # Usually ingress-ca
   mgmtConsumerEndpointCASecret:
@@ -37,14 +37,14 @@ spec:
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: api.portal.192.168.49.2.nip.io
+    - name: api.portal.158.176.5.141.nip.io
       secretName: portal-admin
   portalUIEndpoint:
     #ingressClassName: $INGRESS_CLASS
     annotations:
       cert-manager.io/issuer: ingress-issuer
     hosts:
-    - name: portal.192.168.49.2.nip.io
+    - name: portal.158.176.5.141.nip.io
       secretName: portal-web
   databaseVolumeClaimTemplate:
     storageClassName: standard
