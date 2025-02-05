@@ -1,21 +1,17 @@
 # Installing IBM API Connect on Minikube
-
 This guide provides step-by-step instructions to install IBM API Connect on Minikube.
 
 ## 1) Prerequisites Software and Hardware
-
 Before proceeding, ensure you have the following installed:
 - **Operating System**: Ubuntu 24.04 (At least *16 CPU* cores, *40GB RAM*, and *50GB* disk space)
 - **IBM ID Cloud Account**: You must have an IBM ID Cloud account in order to download IBM API Connect for online installation. The key can be found at [IBM Entitlement KEY](https://myibm.ibm.com/products-services/containerlibrary).
 
-## 2) Prerequisites Tools
-
+## 2) Prerequisites Tool
 This section provides step-by-step instructions to execute the provided scripts for setting up Docker, Docker Compose, Minikube, and Kubernetes utilities. Ensure you follow the steps carefully.
 
 ---
 
 ### Step 1: Execute the Docker and Docker Compose Installation Script
-
 1. **Prerequisites**:
    - Ensure you have `root` privileges on the system.
    - Verify that the script `01-install-docker-with-dockercompose.sh` is present in the current directory and is executable.
@@ -47,7 +43,6 @@ This section provides step-by-step instructions to execute the provided scripts 
 ---
 
 ### Step 2: Execute the Minikube and Kubernetes Utilities Installation Script
-
 1. **Prerequisites**:
    - Ensure Docker is installed and running (as verified in Step 1).
    - Ensure you are logged in as a **sudo user** (non-root user with `sudo` privileges).
@@ -76,7 +71,6 @@ This section provides step-by-step instructions to execute the provided scripts 
 ---
 
 ### Additional Notes
-
 - **Registry Container Name**: Ensure the registry container name is correctly formatted and matches the IP address of your system. This is crucial for Minikube to interact with the local Docker registry.
 - **Troubleshooting**:
   - If any script fails, check the logs for errors and ensure all prerequisites are met.
@@ -85,9 +79,32 @@ This section provides step-by-step instructions to execute the provided scripts 
 
 ---
 
-## 3) Configure Harbor Private Registry (when installing off-line installtion)
+## 3) Configure Registry 
 
-### 3.1) Configure Harbor Registry
+### 3.1) Configure API Connect using IBM Public Registry - (On-Line) 
+When installing online, make sure you successfully ping the IBM Public Registry URL by executing: ping cp.icr.io.
+If this URL still doesn't resolve, try updating the DNS, for example setup DNS on IBM Cloud: 
+   - Update DNS:
+     ```bash
+     sudo nano /etc/systemd/resolved.conf
+     - update --> DNS=8.8.8.8 8.8.4.4
+     ```
+   - Restart systemd-resolved:
+     ```bash
+      systemctl restart systemd-resolved
+      - Test it by execute: ping cp.icr.io
+     ```
+
+### 3.2) Configure API Connect with Harbor Private Registry - (Air-Gap) 
+This section provides step-by-step instructions to configuer Harbor private registry.
+Make sure to get the offline **IBM® API Connect v10.0.9.0 for Containers** images before setting up the air-gap installation.
+The following link is now available: [IBM® API Connect v10.0.9.0 is now available](https://www.ibm.com/support/pages/ibm%C2%AE-api-connect-v10090-now-available). 
+The file apiconnect-image-tool_10.0.1.9.tar.gz can be downloaded.
+Make sure you properly follow the instructions.
+
+Ensure you follow the steps carefully.
+
+#### 3.2.1) Configure Harbor Private Registry - (Air-Gap)
 To configure HTTPS, you must create SSL certificates. You can use certific
 - **Execution**:
    - Run the script as a **sudo user** using the following command:
@@ -95,7 +112,7 @@ To configure HTTPS, you must create SSL certificates. You can use certific
 harbor-registry-setup/01-config-harbor.sh
 ```
 
-### 3.2) Configure HTTPS Access to Harbor Registry
+#### 3.2.2) Configure HTTPS Access to Harbor Private Registry (Air-Gap)
 **Optional**
 To configure HTTPS, you must create SSL certificates. You can use certificates that are signed by a trusted third-party CA, or you can use self-signed certificates. This section describes how to use OpenSSL to create a CA, and how to use your CA to sign a server certificate and a client certificate. You can use other CA providers, for example Let’s Encrypt.
 
@@ -105,7 +122,7 @@ harbor-registry-setup/generate-ssl-certificate.sh 123.123.11.22
 ```
 As a result, all certificates will be generated in the [cert/] folder.
 
-### 3.3) Start Harbor Registry
+#### 3.2.3) Start Harbor Private Registry (Air-Gap)
 - **Execution**:
    - Run the script as a **sudo user** using the following command:
 ```bash

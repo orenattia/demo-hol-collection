@@ -113,7 +113,7 @@ set_registry_info() {
     # Prompt for selection
     read -p "Enter selection [1]: " selection
 
-    # 
+    # Enter Minikube Profile
     read -p "Enter minikube profile name: " minikube_profile
     export MINIKUBE_PROFILE=$minikube_profile
 
@@ -131,10 +131,12 @@ set_registry_info() {
         echo -e "# ${YELLOW}Enter Container Registry Password:${NC}"
         read -p "" entitlement_key
         echo -e "\n"
+
         export IBM_ENTITLEMENT_KEY=$entitlement_key
         export REGISTRY_PASSWORD=$entitlement_key
+
         echo -e "#     ${YELLOW}Registry URL: ${REGISTRY_URL} ${NC}"
-        echo -e "#     ${YELLOW}Registry Project Name: ${REGISTRY_PROJECT} ${NC}"
+        echo -e "#     ${YELLOW}Registry Project Name: ${REGISTRY_PROJECT} ${NC}" 
     fi
     #
     # If Private Container Registry is selected
@@ -150,17 +152,17 @@ set_registry_info() {
         read -p "Enter Private Registry Password: " private_registry_password
         echo "Private Container Registry is selected"
         echo -e "#${NC}"
-    fi   
 
-    export REGISTRY_URL=$private_registry_url
-    export REGISTRY_PROJECT=$private_registry_project_name
-    export REGISTRY_USERNAME=$private_registry_user
-    export REGISTRY_PASSWORD=$private_registry_password
+        export REGISTRY_URL=$private_registry_url
+        export REGISTRY_PROJECT=$private_registry_project_name
+        export REGISTRY_USERNAME=$private_registry_user
+        export REGISTRY_PASSWORD=$private_registry_password
 
-    echo -e "#     ${YELLOW}Registry URL: ${REGISTRY_URL} ${NC}"
-    echo -e "#     ${YELLOW}Registry Project Name: ${REGISTRY_PROJECT} ${NC}"
-    echo -e "#     ${YELLOW}Registry Project User Name: ${REGISTRY_USERNAME} ${NC}"
-    echo -e "#     ${YELLOW}Registry Project Password: ${REGISTRY_PASSWORD} ${NC}"     
+        echo -e "#     ${YELLOW}Registry URL: ${REGISTRY_URL} ${NC}"
+        echo -e "#     ${YELLOW}Registry Project Name: ${REGISTRY_PROJECT} ${NC}"
+        echo -e "#     ${YELLOW}Registry Project User Name: ${REGISTRY_USERNAME} ${NC}"
+        echo -e "#     ${YELLOW}Registry Project Password: ${REGISTRY_PASSWORD} ${NC}"  
+    fi      
 }
 
 setup_minikube()
