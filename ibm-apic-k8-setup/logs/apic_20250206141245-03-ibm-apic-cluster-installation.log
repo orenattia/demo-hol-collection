@@ -1,0 +1,552 @@
+Script started on 2025-02-06 14:23:48+00:00 [COMMAND="./03-apic-cluster-installation.sh    "10.0.9.0" "L-WPTV-3V8RK2" "1.12.13"    "158.176.5.141" "" "ZAQ12wsx"    "apic"    "hcr.158.176.5.141.nip.io" "apic" "apic-cr" "Harbor12345"    "n1xc2.m16" "n1xc2.m8" "n1xc2.m16" "n1xc1.m8"" TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="106" LINES="29"]
+[1;33m
+
+   ######                                           ####      ####         ##                       
+   ######                         ##                ####      ####         ##                       
+     ##                           ##                  ##        ##                                  
+     ##     ##.####    :#####.  #######    :####      ##        ##       ####     ##.####   :###:## 
+     ##     #######   ########  #######    ######     ##        ##       ####     #######  .####### 
+     ##     ###  :##  ##:  .:#    ##       #:  :##    ##        ##         ##     ###  :## ###  ### 
+     ##     ##    ##  ##### .     ##        :#####    ##        ##         ##     ##    ## ##.  .## 
+     ##     ##    ##  .######:    ##      .#######    ##        ##         ##     ##    ## ##    ## 
+     ##     ##    ##     .: ##    ##      ## .  ##    ##        ##         ##     ##    ## ##.  .## 
+     ##     ##    ##  #:.  :##    ##.     ##:  ###    ##:       ##:        ##     ##    ## ###  ### 
+   ######   ##    ##  ########    #####   ########    #####     #####   ########  ##    ## .####### 
+   ######   ##    ##  . ####      .####     ###.##    .####     .####   ########  ##    ##  :###:## 
+                                                                                                :## 
+                                                                                            ######  
+                                                                                            :####:  
+                                                                                                    
+   :####:  ####                                                                                     
+   ######  ####                            ##                                                       
+ :##:  .#    ##                            ##                                                       
+ ##          ##      ##    ##   :#####.  #######    .####:    ##.####                               
+ ##.         ##      ##    ##  ########  #######   .######:   #######                               
+ ##          ##      ##    ##  ##:  .:#    ##      ##:  :##   ###.                                  
+ ##          ##      ##    ##  ##### .     ##      ########   ##                                    
+ ##.         ##      ##    ##  .######:    ##      ########   ##                                    
+ ##          ##      ##    ##     .: ##    ##      ##         ##                                    
+ :##:  .#    ##:     ##:  ###  #:.  :##    ##.     ###.  :#   ##                                    
+   ######    #####    #######  ########    #####   .#######   ##                                    
+   :####:    .####     ###.##  . ####      .####    .#####:   ##                                    
+[0m
+
+# [0;32m===============================[0m
+# [0;32mInstalling Cluster             [0m
+# [0;32m===============================[0m
+
+
+🙄  No changes required for the "apic" context
+💗  Current context is "apic"
+
+
+# [1;33m-------------------------------[0m
+# [1;33mInstall DataPower operator     [0m
+# [1;33m-------------------------------[0m
+serviceaccount/datapower-operator unchanged
+clusterrole.rbac.authorization.k8s.io/datapower-operator configured
+clusterrolebinding.rbac.authorization.k8s.io/datapower-operator unchanged
+role.rbac.authorization.k8s.io/datapower-operator configured
+rolebinding.rbac.authorization.k8s.io/datapower-operator configured
+deployment.apps/datapower-operator configured
+pod/datapower-operator-7c44c6c5f6-2w6vl condition met
+[1;33mdatapower-operator is waiting.[0m
+pod/datapower-operator-7c44c6c5f6-2w6vl condition met
+[1;33mdatapower-operator is ready.[0m
+pod/datapower-operator-conversion-webhook-697d7c9d56-wwkw4 condition met
+[1;33mdatapower-operator-conversion-webhook is waiting.[0m
+pod/datapower-operator-conversion-webhook-697d7c9d56-wwkw4 condition met
+[1;33mdatapower-operator is ready.[0m
+NAME                                                     READY   STATUS    RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running   0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running   0          3m7s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running   0          37h
+
+
+# [1;33m-------------------------------[0m
+# [1;33mDeploy Management CR           [0m
+# [1;33m-------------------------------[0m
+managementcluster.management.apiconnect.ibm.com/management created
+Starting to monitor management status...
+Waiting for status to change from Pending to Running...
+[H[2J[3JIteration: [0;31m 1  [0m
+Last checked at: [1;33m 2025-02-06 14:25:20 [0m
+Current state: management   1/17    Pending   10.0.9.0                        Management installation in progress - see status condition for details   30s
+
+Total processing time: [0;31m 00:10 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS    RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running   0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running   0          3m38s
+edb-operator-5c59c885d9-zclt6                            0/1     Running   0          5s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running   0          37h
+[H[2J[3JIteration: [0;31m 2  [0m
+Last checked at: [1;33m 2025-02-06 14:25:30 [0m
+Current state: management   1/17    Pending   10.0.9.0                        Management installation in progress - see status condition for details   40s
+
+Total processing time: [0;31m 00:20 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS    RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running   0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running   0          3m48s
+edb-operator-5c59c885d9-zclt6                            1/1     Running   0          15s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running   0          37h
+[H[2J[3JIteration: [0;31m 3  [0m
+Last checked at: [1;33m 2025-02-06 14:25:40 [0m
+Current state: management   2/17    Pending   10.0.9.0                        Management installation in progress - see status condition for details   50s
+
+Total processing time: [0;31m 00:30 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS            RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running           0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running           0          3m58s
+edb-operator-5c59c885d9-zclt6                            1/1     Running           0          25s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running           0          37h
+management-84a31e64-db-1-initdb-b49fz                    0/1     PodInitializing   0          2s
+management-s3proxy-0                                     1/1     Running           0          8s
+[H[2J[3JIteration: [0;31m 4  [0m
+Last checked at: [1;33m 2025-02-06 14:25:50 [0m
+Current state: management   2/17    Pending   10.0.9.0                        Management installation in progress - see status condition for details   60s
+
+Total processing time: [0;31m 00:40 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running     0          4m8s
+edb-operator-5c59c885d9-zclt6                            1/1     Running     0          35s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running     0          37h
+management-84a31e64-db-1                                 0/1     Running     0          6s
+management-84a31e64-db-1-initdb-b49fz                    0/1     Completed   0          12s
+management-s3proxy-0                                     1/1     Running     0          18s
+[H[2J[3JIteration: [0;31m 5  [0m
+Last checked at: [1;33m 2025-02-06 14:26:01 [0m
+Current state: management   3/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   71s
+
+Total processing time: [0;31m 00:50 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS    RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running   0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running   0          4m19s
+edb-operator-5c59c885d9-zclt6                            1/1     Running   0          46s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running   0          37h
+management-84a31e64-db-1                                 1/1     Running   0          17s
+management-s3proxy-0                                     1/1     Running   0          29s
+[H[2J[3JIteration: [0;31m 6  [0m
+Last checked at: [1;33m 2025-02-06 14:26:11 [0m
+Current state: management   3/21    Pending   10.0.9.0                        Management installation in progress - see status condition for details   81s
+
+Total processing time: [0;31m 01:00 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS    RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running   0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running   0          4m29s
+edb-operator-5c59c885d9-zclt6                            1/1     Running   0          56s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running   0          37h
+management-84a31e64-db-1                                 1/1     Running   0          27s
+management-analytics-ui-578d496f7f-tn7cc                 0/1     Running   0          2s
+management-client-downloads-server-6d696d767f-6xnbp      0/1     Running   0          2s
+management-ldap-7b8b5c8f6b-x8dqx                         0/1     Running   0          3s
+management-natscluster-0                                 1/1     Running   0          2s
+management-s3proxy-0                                     1/1     Running   0          39s
+[H[2J[3JIteration: [0;31m 7  [0m
+Last checked at: [1;33m 2025-02-06 14:26:21 [0m
+Current state: management   4/21    Pending   10.0.9.0                        Management installation in progress - see status condition for details   91s
+
+Total processing time: [0;31m 01:10 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running     0          4m39s
+edb-operator-5c59c885d9-zclt6                            1/1     Running     0          66s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running     0          37h
+management-84a31e64-db-1                                 1/1     Running     0          37s
+management-analytics-ui-578d496f7f-tn7cc                 0/1     Running     0          12s
+management-client-downloads-server-6d696d767f-6xnbp      0/1     Running     0          12s
+management-ldap-7b8b5c8f6b-x8dqx                         1/1     Running     0          13s
+management-natscluster-0                                 1/1     Running     0          12s
+management-s3proxy-0                                     1/1     Running     0          49s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g        1/1     Running     0          6s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb         0/1     Completed   0          6s
+[H[2J[3JIteration: [0;31m 8  [0m
+Last checked at: [1;33m 2025-02-06 14:26:31 [0m
+Current state: management   7/20    Pending   10.0.9.0                        Management installation in progress - see status condition for details   101s
+
+Total processing time: [0;31m 01:20 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running     0          4m49s
+edb-operator-5c59c885d9-zclt6                            1/1     Running     0          76s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running     0          37h
+management-84a31e64-db-1                                 1/1     Running     0          47s
+management-analytics-ui-578d496f7f-tn7cc                 1/1     Running     0          22s
+management-client-downloads-server-6d696d767f-6xnbp      1/1     Running     0          22s
+management-ldap-7b8b5c8f6b-x8dqx                         1/1     Running     0          23s
+management-natscluster-0                                 1/1     Running     0          22s
+management-s3proxy-0                                     1/1     Running     0          59s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g        1/1     Running     0          16s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb         0/1     Completed   0          16s
+[H[2J[3JIteration: [0;31m 9  [0m
+Last checked at: [1;33m 2025-02-06 14:26:42 [0m
+Current state: management   7/20    Pending   10.0.9.0                        Management installation in progress - see status condition for details   112s
+
+Total processing time: [0;31m 01:30 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                     READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running     0          5m
+edb-operator-5c59c885d9-zclt6                            1/1     Running     0          87s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running     0          37h
+management-84a31e64-db-1                                 1/1     Running     0          58s
+management-analytics-ui-578d496f7f-tn7cc                 1/1     Running     0          33s
+management-client-downloads-server-6d696d767f-6xnbp      1/1     Running     0          33s
+management-ldap-7b8b5c8f6b-x8dqx                         1/1     Running     0          34s
+management-natscluster-0                                 1/1     Running     0          33s
+management-s3proxy-0                                     1/1     Running     0          70s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g        0/1     Completed   0          27s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb         0/1     Completed   0          27s
+[H[2J[3JIteration: [0;31m 10  [0m
+Last checked at: [1;33m 2025-02-06 14:26:52 [0m
+Current state: management   7/19    Pending   10.0.9.0                        Management installation in progress - see status condition for details   2m2s
+
+Total processing time: [0;31m 01:40 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                      READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                       1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4    1/1     Running     0          5m10s
+edb-operator-5c59c885d9-zclt6                             1/1     Running     0          97s
+ibm-apiconnect-c576f8455-skc2n                            1/1     Running     0          37h
+management-84a31e64-db-1                                  1/1     Running     0          68s
+management-analytics-ui-578d496f7f-tn7cc                  1/1     Running     0          43s
+management-client-downloads-server-6d696d767f-6xnbp       1/1     Running     0          43s
+management-ldap-7b8b5c8f6b-x8dqx                          1/1     Running     0          44s
+management-natscluster-0                                  1/1     Running     0          43s
+management-s3proxy-0                                      1/1     Running     0          80s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g         0/1     Completed   0          37s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh   1/1     Running     0          3s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb          0/1     Completed   0          37s
+[H[2J[3JIteration: [0;31m 11  [0m
+Last checked at: [1;33m 2025-02-06 14:27:02 [0m
+Current state: management   7/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   2m12s
+
+Total processing time: [0;31m 01:50 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                      READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                       1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4    1/1     Running     0          5m20s
+edb-operator-5c59c885d9-zclt6                             1/1     Running     0          107s
+ibm-apiconnect-c576f8455-skc2n                            1/1     Running     0          37h
+management-84a31e64-db-1                                  1/1     Running     0          78s
+management-analytics-ui-578d496f7f-tn7cc                  1/1     Running     0          53s
+management-client-downloads-server-6d696d767f-6xnbp       1/1     Running     0          53s
+management-ldap-7b8b5c8f6b-x8dqx                          1/1     Running     0          54s
+management-natscluster-0                                  1/1     Running     0          53s
+management-s3proxy-0                                      1/1     Running     0          90s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g         0/1     Completed   0          47s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh   0/1     Completed   0          13s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb          0/1     Completed   0          47s
+[H[2J[3JIteration: [0;31m 12  [0m
+Last checked at: [1;33m 2025-02-06 14:27:12 [0m
+Current state: management   7/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   2m22s
+
+Total processing time: [0;31m 02:00 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                      READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                       1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4    1/1     Running     0          5m30s
+edb-operator-5c59c885d9-zclt6                             1/1     Running     0          117s
+ibm-apiconnect-c576f8455-skc2n                            1/1     Running     0          37h
+management-84a31e64-db-1                                  1/1     Running     0          88s
+management-analytics-ui-578d496f7f-tn7cc                  1/1     Running     0          63s
+management-client-downloads-server-6d696d767f-6xnbp       1/1     Running     0          63s
+management-ldap-7b8b5c8f6b-x8dqx                          1/1     Running     0          64s
+management-lur-58d6d799bb-v7464                           0/1     Running     0          10s
+management-natscluster-0                                  1/1     Running     0          63s
+management-s3proxy-0                                      1/1     Running     0          100s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g         0/1     Completed   0          57s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh   0/1     Completed   0          23s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb          0/1     Completed   0          57s
+[H[2J[3JIteration: [0;31m 13  [0m
+Last checked at: [1;33m 2025-02-06 14:27:22 [0m
+Current state: management   8/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   2m32s
+
+Total processing time: [0;31m 02:10 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                      READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                       1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4    1/1     Running     0          5m41s
+edb-operator-5c59c885d9-zclt6                             1/1     Running     0          2m8s
+ibm-apiconnect-c576f8455-skc2n                            1/1     Running     0          37h
+management-84a31e64-db-1                                  1/1     Running     0          99s
+management-analytics-ui-578d496f7f-tn7cc                  1/1     Running     0          74s
+management-client-downloads-server-6d696d767f-6xnbp       1/1     Running     0          74s
+management-ldap-7b8b5c8f6b-x8dqx                          1/1     Running     0          75s
+management-lur-58d6d799bb-v7464                           1/1     Running     0          21s
+management-natscluster-0                                  1/1     Running     0          74s
+management-s3proxy-0                                      1/1     Running     0          111s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g         0/1     Completed   0          68s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh   0/1     Completed   0          34s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb          0/1     Completed   0          68s
+[H[2J[3JIteration: [0;31m 14  [0m
+Last checked at: [1;33m 2025-02-06 14:27:33 [0m
+Current state: management   8/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   2m43s
+
+Total processing time: [0;31m 02:20 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          5m51s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          2m18s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          109s
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          84s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          84s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          85s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          31s
+management-natscluster-0                                   1/1     Running     0          84s
+management-s3proxy-0                                       1/1     Running     0          2m1s
+management-up-apim-data-populate-0-to-735-ddaccfc9-xh7gs   1/1     Running     0          9s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g          0/1     Completed   0          78s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh    0/1     Completed   0          44s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb           0/1     Completed   0          78s
+[H[2J[3JIteration: [0;31m 15  [0m
+Last checked at: [1;33m 2025-02-06 14:27:43 [0m
+Current state: management   8/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   2m53s
+
+Total processing time: [0;31m 02:30 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          6m1s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          2m28s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          119s
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          94s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          94s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          95s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          41s
+management-natscluster-0                                   1/1     Running     0          94s
+management-s3proxy-0                                       1/1     Running     0          2m11s
+management-up-apim-data-populate-0-to-735-ddaccfc9-xh7gs   1/1     Running     0          19s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g          0/1     Completed   0          88s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh    0/1     Completed   0          54s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb           0/1     Completed   0          88s
+[H[2J[3JIteration: [0;31m 16  [0m
+Last checked at: [1;33m 2025-02-06 14:27:53 [0m
+Current state: management   8/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   3m3s
+
+Total processing time: [0;31m 02:40 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          6m11s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          2m38s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          2m9s
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          104s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          104s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          105s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          51s
+management-natscluster-0                                   1/1     Running     0          104s
+management-s3proxy-0                                       1/1     Running     0          2m21s
+management-up-apim-data-populate-0-to-735-ddaccfc9-xh7gs   1/1     Running     0          29s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g          0/1     Completed   0          98s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh    0/1     Completed   0          64s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb           0/1     Completed   0          98s
+[H[2J[3JIteration: [0;31m 17  [0m
+Last checked at: [1;33m 2025-02-06 14:28:03 [0m
+Current state: management   8/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   3m13s
+
+Total processing time: [0;31m 02:50 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          6m22s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          2m49s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          2m20s
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          115s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          115s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          116s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          62s
+management-natscluster-0                                   1/1     Running     0          115s
+management-s3proxy-0                                       1/1     Running     0          2m32s
+management-up-apim-data-populate-0-to-735-ddaccfc9-xh7gs   1/1     Running     0          40s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g          0/1     Completed   0          109s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh    0/1     Completed   0          75s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb           0/1     Completed   0          109s
+[H[2J[3JIteration: [0;31m 18  [0m
+Last checked at: [1;33m 2025-02-06 14:28:14 [0m
+Current state: management   9/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   3m24s
+
+Total processing time: [0;31m 03:00 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          6m32s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          2m59s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          2m30s
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          2m5s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          2m5s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          2m6s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          72s
+management-natscluster-0                                   1/1     Running     0          2m5s
+management-s3proxy-0                                       1/1     Running     0          2m42s
+management-up-apim-data-populate-0-to-735-ddaccfc9-xh7gs   0/1     Completed   0          50s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g          0/1     Completed   0          119s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh    0/1     Completed   0          85s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb           0/1     Completed   0          119s
+[H[2J[3JIteration: [0;31m 19  [0m
+Last checked at: [1;33m 2025-02-06 14:28:24 [0m
+Current state: management   9/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   3m34s
+
+Total processing time: [0;31m 03:10 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          6m42s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          3m9s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          2m40s
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          2m15s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          2m15s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          2m16s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          82s
+management-natscluster-0                                   1/1     Running     0          2m15s
+management-s3proxy-0                                       1/1     Running     0          2m52s
+management-up-apim-data-populate-0-to-735-ddaccfc9-xh7gs   0/1     Completed   0          60s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g          0/1     Completed   0          2m9s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh    0/1     Completed   0          95s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb           0/1     Completed   0          2m9s
+[H[2J[3JIteration: [0;31m 20  [0m
+Last checked at: [1;33m 2025-02-06 14:28:34 [0m
+Current state: management   9/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   3m44s
+
+Total processing time: [0;31m 03:20 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          6m52s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          3m19s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          2m50s
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          2m25s
+management-apim-89d8fbd89-782g7                            0/1     Running     0          3s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          2m25s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          2m26s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          92s
+management-natscluster-0                                   1/1     Running     0          2m25s
+management-s3proxy-0                                       1/1     Running     0          3m2s
+management-up-apim-data-populate-0-to-735-ddaccfc9-xh7gs   0/1     Completed   0          70s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g          0/1     Completed   0          2m19s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh    0/1     Completed   0          105s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb           0/1     Completed   0          2m19s
+[H[2J[3JIteration: [0;31m 21  [0m
+Last checked at: [1;33m 2025-02-06 14:28:44 [0m
+Current state: management   9/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   3m54s
+
+Total processing time: [0;31m 03:30 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          7m2s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          3m29s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          3m
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          2m35s
+management-apim-89d8fbd89-782g7                            0/1     Running     0          13s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          2m35s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          2m36s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          102s
+management-natscluster-0                                   1/1     Running     0          2m35s
+management-s3proxy-0                                       1/1     Running     0          3m12s
+management-up-apim-data-populate-0-to-735-ddaccfc9-xh7gs   0/1     Completed   0          80s
+management-up-apim-schema-0-to-735-ddaccfc9-zjr5g          0/1     Completed   0          2m29s
+management-up-lur-data-populate-0-to-103-ddaccfc9-lkmnh    0/1     Completed   0          115s
+management-up-lur-schema-0-to-103-ddaccfc9-5jdkb           0/1     Completed   0          2m29s
+[H[2J[3JIteration: [0;31m 22  [0m
+Last checked at: [1;33m 2025-02-06 14:28:55 [0m
+Current state: management   9/18    Pending   10.0.9.0                        Management installation in progress - see status condition for details   4m5s
+
+Total processing time: [0;31m 03:40 [0m
+⏳ Still in [0;31mPending[0m status. Checking again in 10 seconds...
+[1;33mPress Ctrl+C to stop monitoring[0m
+
+
+NAME                                                       READY   STATUS      RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                        1/1     Running     0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4     1/1     Running     0          7m13s
+edb-operator-5c59c885d9-zclt6                              1/1     Running     0          3m40s
+ibm-apiconnect-c576f8455-skc2n                             1/1     Running     0          37h
+management-84a31e64-db-1                                   1/1     Running     0          3m11s
+management-analytics-ui-578d496f7f-tn7cc                   1/1     Running     0          2m46s
+management-apim-89d8fbd89-782g7                            0/1     Running     0          24s
+management-client-downloads-server-6d696d767f-6xnbp        1/1     Running     0          2m46s
+management-ldap-7b8b5c8f6b-x8dqx                           1/1     Running     0          2m47s
+management-lur-58d6d799bb-v7464                            1/1     Running     0          113s
+management-natscluster-0                                   1/1     Running     0          2m46s
+management-s3proxy-0                                       1/1     Running     0          3m23

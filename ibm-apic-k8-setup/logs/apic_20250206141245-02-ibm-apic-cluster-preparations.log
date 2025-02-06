@@ -1,0 +1,316 @@
+Script started on 2025-02-06 14:20:26+00:00 [COMMAND="./02-apic-cluster-preparations.sh     "10.0.9.0" "L-WPTV-3V8RK2" "1.12.13"     "158.176.5.141" "" "ZAQ12wsx"     "apic"     "hcr.158.176.5.141.nip.io" "apic" "apic-cr" "Harbor12345"     "n1xc2.m16" "n1xc2.m8" "n1xc2.m16" "n1xc1.m8"" TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="106" LINES="29"]
+[1;33m
+
+ ######:                                                        ##                       
+ #######:                                                       ##                       
+ ##   :##                                                                                
+ ##    ##   ##.####   .####:   ##.###:    :####     ##.####   ####     ##.####   :###:## 
+ ##   :##   #######  .######:  #######:   ######    #######   ####     #######  .####### 
+ #######:   ###.     ##:  :##  ###  ###   #:  :##   ###.        ##     ###  :## ###  ### 
+ ######:    ##       ########  ##.  .##    :#####   ##          ##     ##    ## ##.  .## 
+ ##         ##       ########  ##    ##  .#######   ##          ##     ##    ## ##    ## 
+ ##         ##       ##        ##.  .##  ## .  ##   ##          ##     ##    ## ##.  .## 
+ ##         ##       ###.  :#  ###  ###  ##:  ###   ##          ##     ##    ## ###  ### 
+ ##         ##       .#######  #######:  ########   ##       ########  ##    ## .####### 
+ ##         ##        .#####:  ##.###:     ###.##   ##       ########  ##    ##  :###:## 
+                               ##                                                    :## 
+                               ##                                                ######  
+                               ##                                                :####:  
+                                                                                         
+   :####:  ####                                                                          
+   ######  ####                            ##                                            
+ :##:  .#    ##                            ##                                            
+ ##          ##      ##    ##   :#####.  #######    .####:    ##.####                    
+ ##.         ##      ##    ##  ########  #######   .######:   #######                    
+ ##          ##      ##    ##  ##:  .:#    ##      ##:  :##   ###.                       
+ ##          ##      ##    ##  ##### .     ##      ########   ##                         
+ ##.         ##      ##    ##  .######:    ##      ########   ##                         
+ ##          ##      ##    ##     .: ##    ##      ##         ##                         
+ :##:  .#    ##:     ##:  ###  #:.  :##    ##.     ###.  :#   ##                         
+   ######    #####    #######  ########    #####   .#######   ##                         
+   :####:    .####     ###.##  . ####      .####    .#####:   ##                         
+[0m
+
+# [0;32m===============================[0m
+# [0;32mPreparing Cluster              [0m
+# [0;32m===============================[0m
+
+
+🙄  No changes required for the "apic" context
+💗  Current context is "apic"
+
+
+# [1;33m-------------------------------[0m
+# [1;33mCreate Private Registry Secret [0m
+# [1;33m-------------------------------[0m
+
+
+# [1;33m-------------------------------[0m
+# [1;33mPrepare for APIC               [0m
+# [1;33m-------------------------------[0m
+Error from server (AlreadyExists): namespaces "apic" already exists
+Context "apic" modified.
+apic
+
+
+
+# [1;33m-------------------------------[0m
+# [1;33mInstall and verify cert manager[0m
+# [1;33m-------------------------------[0m
+namespace/cert-manager unchanged
+customresourcedefinition.apiextensions.k8s.io/certificaterequests.cert-manager.io unchanged
+customresourcedefinition.apiextensions.k8s.io/certificates.cert-manager.io unchanged
+customresourcedefinition.apiextensions.k8s.io/challenges.acme.cert-manager.io unchanged
+customresourcedefinition.apiextensions.k8s.io/clusterissuers.cert-manager.io unchanged
+customresourcedefinition.apiextensions.k8s.io/issuers.cert-manager.io unchanged
+customresourcedefinition.apiextensions.k8s.io/orders.acme.cert-manager.io unchanged
+serviceaccount/cert-manager-cainjector unchanged
+serviceaccount/cert-manager unchanged
+serviceaccount/cert-manager-webhook unchanged
+configmap/cert-manager-webhook configured
+clusterrole.rbac.authorization.k8s.io/cert-manager-cainjector unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-issuers unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificates unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-orders unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-challenges unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-view unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-edit unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests unchanged
+clusterrole.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-cainjector unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-issuers unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificates unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-orders unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-challenges unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests unchanged
+clusterrolebinding.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews configured
+role.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection unchanged
+role.rbac.authorization.k8s.io/cert-manager:leaderelection unchanged
+role.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving unchanged
+rolebinding.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection unchanged
+rolebinding.rbac.authorization.k8s.io/cert-manager:leaderelection configured
+rolebinding.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving configured
+service/cert-manager unchanged
+service/cert-manager-webhook unchanged
+deployment.apps/cert-manager-cainjector unchanged
+deployment.apps/cert-manager unchanged
+deployment.apps/cert-manager-webhook unchanged
+mutatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook configured
+validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook configured
+pod/cert-manager-75d9d468f9-lvrbm condition met
+pod/cert-manager-75d9d468f9-lvrbm condition met
+pod/cert-manager-webhook-77ff5d65dc-8dvx7 condition met
+pod/cert-manager-webhook-77ff5d65dc-8dvx7 condition met
+NAME                                       READY   STATUS    RESTARTS   AGE
+cert-manager-75d9d468f9-lvrbm              1/1     Running   0          37h
+cert-manager-cainjector-55fff8c9df-gwcwv   1/1     Running   0          37h
+cert-manager-webhook-77ff5d65dc-8dvx7      1/1     Running   0          37h
+The cert-manager API is ready
+
+
+# [1;33m-------------------------------[0m
+# [1;33mCreate Prereq secrets          [0m
+# [1;33m-------------------------------[0m
+secret/apic-registry-secret configured
+secret/datapower-docker-local-cred configured
+secret/datapower-admin-credentials configured
+
+
+NAME                                                    TYPE                             DATA   AGE
+analytics-ai-endpoint                                   kubernetes.io/tls                3      37h
+analytics-ca                                            kubernetes.io/tls                4      37h
+analytics-client                                        kubernetes.io/tls                3      37h
+analytics-ingestion-client                              kubernetes.io/tls                3      37h
+analytics-server                                        kubernetes.io/tls                3      37h
+analytics-warehouse-creds                               Opaque                           2      37h
+api-endpoint                                            kubernetes.io/tls                3      37h
+apic-registry-secret                                    kubernetes.io/dockerconfigjson   1      37h
+apiconnect-gateway-peering                              Opaque                           1      37h
+apim-endpoint                                           kubernetes.io/tls                3      37h
+cm-endpoint                                             kubernetes.io/tls                3      37h
+consumer-catalog-endpoint                               kubernetes.io/tls                3      37h
+consumer-endpoint                                       kubernetes.io/tls                3      37h
+datapower-admin-credentials                             Opaque                           1      37h
+datapower-conversion-key-cert                           kubernetes.io/tls                3      37h
+datapower-docker-local-cred                             kubernetes.io/dockerconfigjson   1      37h
+datapower-operator                                      kubernetes.io/tls                3      37h
+gateway-client-client                                   kubernetes.io/tls                3      37h
+gateway-peering                                         kubernetes.io/tls                3      37h
+gateway-service                                         kubernetes.io/tls                3      37h
+gwv6-endpoint                                           kubernetes.io/tls                3      37h
+gwv6-manager-endpoint                                   kubernetes.io/tls                3      37h
+hcr-secret                                              kubernetes.io/dockerconfigjson   1      38h
+ingress-ca                                              kubernetes.io/tls                3      37h
+management-admin-secret                                 Opaque                           2      37h
+management-atm-cred                                     Opaque                           1      37h
+management-ca                                           kubernetes.io/tls                4      37h
+management-ccli-cred                                    Opaque                           1      37h
+management-cli-cred                                     Opaque                           1      37h
+management-client                                       kubernetes.io/tls                3      37h
+management-cui-cred                                     Opaque                           1      37h
+management-db-client-apicuser                           kubernetes.io/tls                3      37h
+management-db-client-postgres                           kubernetes.io/tls                3      37h
+management-discovery-cred                               Opaque                           1      37h
+management-dsgr-cred                                    Opaque                           1      37h
+management-enc-key                                      Opaque                           1      37h
+management-f6ccde1a-db-app                              kubernetes.io/basic-auth         9      37h
+management-f6ccde1a-db-replication                      kubernetes.io/tls                3      37h
+management-f6ccde1a-db-server                           kubernetes.io/tls                3      37h
+management-f6ccde1a-db-superuser                        kubernetes.io/basic-auth         9      37h
+management-f6ccde1a-postgres-postgres-secret            Opaque                           2      37h
+management-f6ccde1a-postgres-postgres-secret-apicuser   Opaque                           2      37h
+management-governance-cred                              Opaque                           1      37h
+management-juhu-cred                                    Opaque                           1      37h
+management-natscluster-mgmt                             kubernetes.io/tls                3      37h
+management-s3proxy-all                                  kubernetes.io/tls                3      37h
+management-s3proxy-auth                                 Opaque                           2      37h
+management-server                                       kubernetes.io/tls                3      37h
+management-ui-cred                                      Opaque                           1      37h
+portal-admin                                            kubernetes.io/tls                3      37h
+portal-admin-client                                     kubernetes.io/tls                3      37h
+portal-ca                                               kubernetes.io/tls                4      37h
+portal-client                                           kubernetes.io/tls                3      37h
+portal-enc-key                                          Opaque                           1      37h
+portal-server                                           kubernetes.io/tls                3      37h
+portal-web                                              kubernetes.io/tls                3      37h
+postgresql-operator-ca-secret                           Opaque                           2      37h
+postgresql-operator-controller-manager-config           Opaque                           1      37h
+postgresql-operator-webhook-cert                        kubernetes.io/tls                2      37h
+# [1;33m-------------------------------[0m
+# [1;33mCreate APIC creds              [0m
+# [1;33m-------------------------------[0m
+customresourcedefinition.apiextensions.k8s.io "analyticsbackups.analytics.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "analyticsclusters.analytics.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "analyticsrestores.analytics.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "apiconnectclusters.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "backups.postgresql.k8s.enterprisedb.io" deleted
+customresourcedefinition.apiextensions.k8s.io "clusters.postgresql.k8s.enterprisedb.io" deleted
+customresourcedefinition.apiextensions.k8s.io "gatewayclusters.gateway.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "managementclusters.management.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "managementdbupgrades.management.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "managementrestores.management.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "managementsecretrotations.management.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "poolers.postgresql.k8s.enterprisedb.io" deleted
+customresourcedefinition.apiextensions.k8s.io "portalbackups.portal.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "portalclusters.portal.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "portalrestores.portal.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "portalsecretrotations.portal.apiconnect.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "scheduledbackups.postgresql.k8s.enterprisedb.io" deleted
+customresourcedefinition.apiextensions.k8s.io "datapowermonitors.datapower.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "datapowerrollouts.datapower.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "datapowerservicebindings.datapower.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "datapowerservices.datapower.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "datapowermustgathers.datapower.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io "datapowermustgathermanagers.datapower.ibm.com" deleted
+customresourcedefinition.apiextensions.k8s.io/analyticsbackups.analytics.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/analyticsclusters.analytics.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/analyticsrestores.analytics.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/apiconnectclusters.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/backups.postgresql.k8s.enterprisedb.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/clusters.postgresql.k8s.enterprisedb.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/gatewayclusters.gateway.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/managementclusters.management.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/managementdbupgrades.management.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/managementrestores.management.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/managementsecretrotations.management.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/poolers.postgresql.k8s.enterprisedb.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/portalbackups.portal.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/portalclusters.portal.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/portalrestores.portal.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/portalsecretrotations.portal.apiconnect.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/scheduledbackups.postgresql.k8s.enterprisedb.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/datapowermonitors.datapower.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/datapowerrollouts.datapower.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/datapowerservicebindings.datapower.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/datapowerservices.datapower.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/datapowermustgathers.datapower.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/datapowermustgathermanagers.datapower.ibm.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/analyticsbackups.analytics.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/analyticsclusters.analytics.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/analyticsrestores.analytics.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/apiconnectclusters.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/backups.postgresql.k8s.enterprisedb.io condition met
+customresourcedefinition.apiextensions.k8s.io/clusters.postgresql.k8s.enterprisedb.io condition met
+customresourcedefinition.apiextensions.k8s.io/gatewayclusters.gateway.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/managementclusters.management.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/managementdbupgrades.management.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/managementrestores.management.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/managementsecretrotations.management.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/poolers.postgresql.k8s.enterprisedb.io condition met
+customresourcedefinition.apiextensions.k8s.io/portalbackups.portal.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/portalclusters.portal.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/portalrestores.portal.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/portalsecretrotations.portal.apiconnect.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/scheduledbackups.postgresql.k8s.enterprisedb.io condition met
+customresourcedefinition.apiextensions.k8s.io/datapowermonitors.datapower.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/datapowerrollouts.datapower.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/datapowerservicebindings.datapower.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/datapowerservices.datapower.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/datapowermustgathers.datapower.ibm.com condition met
+customresourcedefinition.apiextensions.k8s.io/datapowermustgathermanagers.datapower.ibm.com condition met
+
+
+# [1;33m-------------------------------[0m
+# [1;33mCreate APIC operator           [0m
+# [1;33m-------------------------------[0m
+namespace/apic unchanged
+serviceaccount/ibm-apiconnect unchanged
+role.rbac.authorization.k8s.io/ibm-apiconnect unchanged
+role.rbac.authorization.k8s.io/ibm-apiconnect-leader-election-role unchanged
+clusterrole.rbac.authorization.k8s.io/ibm-apiconnect unchanged
+clusterrole.rbac.authorization.k8s.io/ibm-apiconnect-metrics-reader unchanged
+clusterrole.rbac.authorization.k8s.io/ibm-apiconnect-proxy-role unchanged
+clusterrole.rbac.authorization.k8s.io/ibm-apiconnect-webhook-delete-role unchanged
+clusterrole.rbac.authorization.k8s.io/ibm-apiconnect-webhook-update-role unchanged
+rolebinding.rbac.authorization.k8s.io/ibm-apiconnect unchanged
+rolebinding.rbac.authorization.k8s.io/ibm-apiconnect-leader-election-rolebinding unchanged
+clusterrolebinding.rbac.authorization.k8s.io/ibm-apiconnect-default unchanged
+clusterrolebinding.rbac.authorization.k8s.io/ibm-apiconnect-proxy-rolebinding unchanged
+clusterrolebinding.rbac.authorization.k8s.io/ibm-apiconnect-webhook-delete-role-binding unchanged
+clusterrolebinding.rbac.authorization.k8s.io/ibm-apiconnect-webhook-update-role-binding unchanged
+service/ibm-apiconnect-metrics-service unchanged
+service/ibm-apiconnect-webhook-service unchanged
+service/postgresql-operator-webhook-service unchanged
+deployment.apps/ibm-apiconnect configured
+mutatingwebhookconfiguration.admissionregistration.k8s.io/ibm-apiconnect-mutating-webhook-configuration configured
+mutatingwebhookconfiguration.admissionregistration.k8s.io/postgresql-operator-mutating-webhook-configuration configured
+validatingwebhookconfiguration.admissionregistration.k8s.io/ibm-apiconnect-validating-webhook-configuration configured
+validatingwebhookconfiguration.admissionregistration.k8s.io/postgresql-operator-validating-webhook-configuration configured
+pod/ibm-apiconnect-c576f8455-skc2n condition met
+pod/ibm-apiconnect-c576f8455-skc2n condition met
+NAME                                                     READY   STATUS        RESTARTS   AGE
+datapower-operator-7c44c6c5f6-2w6vl                      1/1     Running       0          37h
+datapower-operator-conversion-webhook-697d7c9d56-wwkw4   1/1     Running       0          93s
+ibm-apiconnect-c576f8455-skc2n                           1/1     Running       0          37h
+management-taskmanager-856f675497-4s57m                  0/1     Terminating   0          37h
+
+
+# [1;33m---------------------------------[0m
+# [1;33mConfigure issuer and common certs[0m
+# [1;33m---------------------------------[0m
+issuer.cert-manager.io/selfsigning-issuer unchanged
+certificate.cert-manager.io/ingress-ca configured
+issuer.cert-manager.io/ingress-issuer unchanged
+certificate.cert-manager.io/portal-admin-client configured
+certificate.cert-manager.io/gateway-client-client configured
+certificate.cert-manager.io/analytics-ingestion-client configured
+certificate.cert-manager.io/gateway-service configured
+certificate.cert-manager.io/gateway-peering configured
+issuer.cert-manager.io/selfsigning-issuer condition met
+certificate.cert-manager.io/ingress-ca condition met
+issuer.cert-manager.io/ingress-issuer condition met
+certificate.cert-manager.io/portal-admin-client condition met
+certificate.cert-manager.io/gateway-client-client condition met
+certificate.cert-manager.io/analytics-ingestion-client condition met
+certificate.cert-manager.io/gateway-service condition met
+certificate.cert-manager.io/gateway-peering condition met
+
+
+
+Script done on 2025-02-06 14:23:48+00:00 [COMMAND_EXIT_CODE="0"]

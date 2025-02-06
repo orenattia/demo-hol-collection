@@ -166,20 +166,79 @@ When installing online, make sure you successfully ping the IBM Public Registry 
      ```
 ---
 
-### 4.2) Customization Parameters Setup Settings
+### 4.2) Customization APIC Installation Parameters
 When installing online, make sure you successfully ping the IBM Public Registry URL by executing: ping cp.icr.io.
-**Execution**:
-   - Enter the following parameters:
+**Verify all requirements software was installed**:
      ```bash
-     Please confirm that all of the prerequisites have been installed before proceeding? (Y/n): Y
+    Please confirm that all of the prerequisites have been installed before proceeding? (Y/n): Y
+    ```
+**Select APIC installtion version and setup mode**:
+     ```bash
+    To install IBM API Connect 10, please select the following version:
+    ***Yellow indicates the tested version***
+    1) [Off-Line setup] ver 10.0.9.0 [Air-Gap Setup using Harbor Private Registry] 
+    2) [On-Line setup] ver 10.0.6.0 [default]  [Online Setup using IBM Registry] 
+    3) [On/Off setup] ver 10.0.5.8 
+    4) Exit
+    Enter selection [2]: 1
+    ```
+**Confirm deployment profile**:
+     ```bash
+      Deployment Profile Limits:
+      ├── Management Profile:  n1xc2.m16 
+      ├── Portal Profile:      n1xc2.m8     
+      ├── Analytics Profile:   n1xc2.m16  
+      └── DataPower Profile:   n1xc1.m8  
 
-     1) [Off-Line setup] ver 10.0.9.0 [Air-Gap Setup using Harbor Private Registry] 
-     2) [On-Line setup] ver 10.0.6.0 [default]  [Online Setup using IBM Registry] 
-     3) [On/Off setup] ver 10.0.5.8 
-     4) Exit
-      Enter selection [2]: 1
+      Do you agree to continue with the deployment settings as it is? (Y/n):  Y
+    ```
+**Select container registry type**:
+     ```bash
+      # Select container registry type: 
+      # --------------------------------------- 
+      #  1) IBM Entitled Registry [default]:
+      #         Registry URL: cp.icr.io
+      #         Registry Project Name: cp
+      # 
+      #  NOTE! Get the entitlement key from: https://myibm.ibm.com/products-services/containerlibrary
+      #  2) Private Container Registry [Docker Private Registry is required!!!]
+      # --------------------------------------- 
 
-     ```
+      Enter selection [1]: 2
+    ```
+**Select minikube profile**:
+     ```bash
+    Enter minikube profile name: MINIKUBE_PROFILE
+    ```
+**Select minikube profile**:
+     ```bash
+      #IMPORTENT!!! - Download the full image Containers
+      #  IBM® API Connect v10.0.9.0 for Containers 
+      Enter Private Registry URL: hcr.158.176.5.141.nip.io
+      Enter Private Registry Project Name: HARBOR_PROJECT_NAME
+      Enter Private Registry User Name: apic-cr
+      Enter Private Registry Password: Harbor12345
+    ```
+**Select minikube profile**:
+     ```bash
+      # -------------------------------
+      # Setup Minikube                 
+      # -------------------------------
+      Device "eth1" does not exist.
+      # Select cluster IP address: 
+      # --------------------------------------- 
+      #  1) WAN IP (158.176.5.141) [default]
+      #  2) Minikube IP (192.168.49.2) 
+      #  3) Enter custom IP
+      # --------------------------------------- 
+
+      Enter selection [1]: 1
+    ```
+**Select minikube profile**:
+     ```bash
+      Enter Management subsystem administrator password: APIC_ADMIN_PASSWORD
+    ```
+
 ---
 #
 ## Conclusion
@@ -187,3 +246,10 @@ When installing online, make sure you successfully ping the IBM Public Registry 
 You have successfully installed IBM API Connect on Minikube. You can now start configuring APIs and managing services.
 
 Let me know if you need any modifications!
+
+## Acknowledgments 🙏
+
+A heartfelt thank you to my colleague **Yaniv Yuzis** for guiding me through the development of this technological solution. Your unwavering support and profound insights were instrumental in transforming our challenge into a meaningful technological contribution.
+
+**With deepest gratitude,**
+Oren Attia
