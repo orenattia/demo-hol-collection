@@ -47,7 +47,7 @@ This section provides step-by-step instructions to execute the provided scripts 
    - Ensure Docker is installed and running (as verified in Step 1).
    - Ensure you are logged in as a **sudo user** (non-root user with `sudo` privileges).
    - Prepare the registry container name in the format `hcr.<IP>.nip.io`. Replace `<IP>` with the actual IP address of your system.
-     - Example: If your system's IP is `192.168.1.100`, the registry container name should be `hcr.192.168.1.100.nip.io`.
+Example: If your system's IP is `192.168.1.100`, the registry container name should be `hcr.192.168.1.100.nip.io`.
 
 2. **Execution**:
    - Run the script as a **sudo user** using the following command:
@@ -106,11 +106,11 @@ Ensure you follow the steps carefully.
 
 #### 3.2.1) Configure Harbor Private Registry - (Air-Gap)
 To configure HTTPS, you must create SSL certificates. You can use certific
-- **Execution**:
-   - Run the script as a **sudo user** using the following command:
-```bash
-harbor-registry-setup/01-config-harbor.sh
-```
+**Execution**:
+- Run the script as a **sudo user** using the following command:
+  ```bash
+  harbor-registry-setup/01-config-harbor.sh
+  ```
 
 #### 3.2.2) Configure HTTPS Access to Harbor Private Registry (Air-Gap)
 **Optional**
@@ -123,34 +123,34 @@ harbor-registry-setup/generate-ssl-certificate.sh 123.123.11.22
 As a result, all certificates will be generated in the [cert/] folder.
 
 #### 3.2.3) Start Harbor Private Registry (Air-Gap)
-- **Execution**:
-   - Run the script as a **sudo user** using the following command:
-```bash
-harbor-registry-setup/02-start-harbor.sh
-```
-- **Setting Harbor project and user via UI**:
-   - Execute the following tasks from the Harbor UI:
+**Execution**:
+Run the script as a **sudo user** using the following command:
+  ```bash
+  harbor-registry-setup/02-start-harbor.sh
+  ```
+**Setting Harbor project and user via UI**:
+Execute the following tasks from the Harbor UI:
       login to: [e.g. https://hcr.161.156.164.61.nip.io]
-```bash
-  - Create Harbor project
-        Project name: apic
-  - Create Harbor user
-        User name: apic-cr
-  - Attched Harbor user to project
-      apic-cr --> apic
-```
-- **Verify Harbor installation**:
-```bash
-  kubectl get pods
-  kubectl get pvc
-  kubectl get svc
-  kubectl get ingress
-```
-- **Verify access to the private docker repository**:
-   - Execute the following command:
-```bash
-docker login https://hcr.<IP>.nip.io -u HARBOR_USER_NAME -P HARBOR_PASSWORD
-```
+  ```bash
+    - Create Harbor project
+          Project name: apic
+    - Create Harbor user
+          User name: apic-cr
+    - Attched Harbor user to project
+        apic-cr --> apic
+  ```
+**Verify Harbor installation**:
+  ```bash
+    kubectl get pods
+    kubectl get pvc
+    kubectl get svc
+    kubectl get ingress
+  ```
+**Verify access to the private docker repository**:
+  Execute the following command:
+  ```bash
+  docker login https://hcr.<IP>.nip.io -u HARBOR_USER_NAME -P HARBOR_PASSWORD
+  ```
 
 ## 4) Installing API Connect 
 This section provides step-by-step instructions to installing API Connect 10.x. 
