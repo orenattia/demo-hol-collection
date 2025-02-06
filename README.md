@@ -168,21 +168,22 @@ When installing online, make sure you successfully ping the IBM Public Registry 
 
 ### 4.2) Customization APIC Installation Parameters
 When installing online, make sure you successfully ping the IBM Public Registry URL by executing: ping cp.icr.io.
-**Verify all requirements software was installed**:
+   - Verify all requirements software was installed:
      ```bash
-    Please confirm that all of the prerequisites have been installed before proceeding? (Y/n): Y
-    ```
-**Select APIC installtion version and setup mode**:
+     Please confirm that all of the prerequisites have been installed before proceeding? (Y/n): Y
+     ```
+
+   - Select APIC installtion version and setup mode:
      ```bash
-    To install IBM API Connect 10, please select the following version:
-    ***Yellow indicates the tested version***
-    1) [Off-Line setup] ver 10.0.9.0 [Air-Gap Setup using Harbor Private Registry] 
-    2) [On-Line setup] ver 10.0.6.0 [default]  [Online Setup using IBM Registry] 
-    3) [On/Off setup] ver 10.0.5.8 
-    4) Exit
-    Enter selection [2]: 1
-    ```
-**Confirm deployment profile**:
+      To install IBM API Connect 10, please select the following version:
+      1) [Off-Line setup] ver 10.0.9.0 [Air-Gap Setup using Harbor Private Registry] 
+      2) [On-Line setup] ver 10.0.6.0 [default]  [Online Setup using IBM Registry] 
+      3) [On/Off setup] ver 10.0.5.8 
+      4) Exit
+      Enter selection [2]: 1
+     ```
+
+   - Confirm deployment profile:
      ```bash
       Deployment Profile Limits:
       ├── Management Profile:  n1xc2.m16 
@@ -191,35 +192,36 @@ When installing online, make sure you successfully ping the IBM Public Registry 
       └── DataPower Profile:   n1xc1.m8  
 
       Do you agree to continue with the deployment settings as it is? (Y/n):  Y
-    ```
-**Select container registry type**:
-     ```bash
-      # Select container registry type: 
-      # --------------------------------------- 
-      #  1) IBM Entitled Registry [default]:
-      #         Registry URL: cp.icr.io
-      #         Registry Project Name: cp
-      # 
-      #  NOTE! Get the entitlement key from: https://myibm.ibm.com/products-services/containerlibrary
-      #  2) Private Container Registry [Docker Private Registry is required!!!]
-      # --------------------------------------- 
+     ```
 
-      Enter selection [1]: 2
-    ```
-**Select minikube profile**:
+   - Select container registry type:
      ```bash
-    Enter minikube profile name: MINIKUBE_PROFILE
-    ```
-**Select minikube profile**:
+      Select container registry type: 
+       1) IBM Entitled Registry [default]:
+              Registry URL: cp.icr.io
+             Registry Project Name: cp
+      
+       NOTE! Get the entitlement key from: https://myibm.ibm.com/products-services/containerlibrary
+       2) Private Container Registry [Docker Private Registry is required!!!]
+      Enter selection [1]: 2
+     ```
+
+   - Select minikube profile:
+     ```bash
+      Enter minikube profile name: MINIKUBE_PROFILE
+     ```
+
+   - Select minikube profile:
      ```bash
       #IMPORTENT!!! - Download the full image Containers
       #  IBM® API Connect v10.0.9.0 for Containers 
       Enter Private Registry URL: hcr.158.176.5.141.nip.io
       Enter Private Registry Project Name: HARBOR_PROJECT_NAME
-      Enter Private Registry User Name: apic-cr
-      Enter Private Registry Password: Harbor12345
-    ```
-**Select minikube profile**:
+      Enter Private Registry User Name: HARBOR_USER_NAME
+      Enter Private Registry Password: HARBOR_PASSWORD
+     ```
+
+   - Select minikube profile:
      ```bash
       # -------------------------------
       # Setup Minikube                 
@@ -233,11 +235,33 @@ When installing online, make sure you successfully ping the IBM Public Registry 
       # --------------------------------------- 
 
       Enter selection [1]: 1
-    ```
-**Select minikube profile**:
+     ```
+
+   - Set APIC admin password:
      ```bash
       Enter Management subsystem administrator password: APIC_ADMIN_PASSWORD
+     ```
+
+### 4.3) Installation Verification
+
+  - When installation completes successfully, you'll receive confirmation messages:
+    ```bash
+    # ===========================
+    # ===      Ver: 10.0.9.0
+    # ===      ✅ Done 
+    # ===========================
+    Script done.
+    Output log file location: logs/apic_20250206141245-03-ibm-apic-cluster-installation.log 
     ```
+
+#### Key Verification Steps
+- Confirm version compatibility
+- Check installation log for detailed diagnostics
+- Validate all prerequisite software installations
+
+#### Troubleshooting
+- Review log file for any potential configuration issues
+- Ensure all system requirements are met before installation
 
 ---
 #
